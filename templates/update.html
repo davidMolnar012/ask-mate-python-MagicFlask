@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User Story | Super Sprinter 3000</title>
+</head>
+<body>
+    <h1>Update User Story</h1>
+    <form method="post">
+        <p>
+            <font size="4" >Story title:<br></font>
+            <input type="text" name={{table_head[1]}} value='{{user_stories[story_id][table_head[1]]}}' required>
+        </p>
+        <p>
+            <font size="4">User Story:<br></font>
+            <textarea name={{table_head[2]}} rows="4" cols="40" required>{{user_stories[story_id][table_head[2]].replace('<br>','\n')}}</textarea>
+        </p>
+        <p>
+            <font size="4">Acceptance Criteria:<br></font>
+            <textarea name={{table_head[3]}} rows="8" cols="40" required>{{user_stories[story_id][table_head[3]].replace('<br>','\n')}}</textarea>
+        </p>
+        <p>
+            <font size="4">Business value:<br></font>
+            <input type="number" name={{table_head[4]}} value={{user_stories[story_id][table_head[4]]}} min="100" max="1500" step="100">
+        </p>
+        <p>
+            <font size="4">Estimation:<br></font>
+            <input type="number" name={{table_head[5]}} value={{user_stories[story_id][table_head[5]]}} min="0.5" max="40" step="0.5">
+        </p>
+        <p>
+            <font size="4">Estimation:<br></font>
+            <select name="{{table_head[6]}}" >
+                <option value="{{user_stories[story_id][table_head[6]]}}" selected hidden>{{user_stories[story_id][table_head[6]]}}</option>
+                <option value="planning">planning</option>
+                <option value="todo">todo</option>
+                <option value="in progress">in progress</option>
+                <option value="review">review</option>
+                <option value="done">done</option>
+            </select>
+
+        </p>
+        <button type="submit">Update User Story</button>
+    </form>
+</body>
+</html>

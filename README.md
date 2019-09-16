@@ -1,2 +1,18 @@
-# wswp-ask-mate
-Web and SQL with Python / 1st TW week / Ask Mate project
+# Super Sprinter 3000
+
+An Agile development helper software.
+
+
+## Before development
+
+To install all the *pip* dependencies, run the following command:
+```
+pip install -r requirements.txt
+```
+
+
+## Testing
+
+To tests your work, you can run the provided acceptance tests.
+
+How? [Go into it's folder](./test)
