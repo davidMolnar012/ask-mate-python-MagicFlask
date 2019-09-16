@@ -12,9 +12,19 @@ def get_all_user_story():
         for item in csv.DictReader(csv_file):
             file_content[item[DATA_HEADER[0]]] = item
         csv_file.close()
-    return file_content , DATA_HEADER
+    return file_content, DATA_HEADER
 
-def write_new_story(story_dict):
-    with open(DATA_FILE_PATH, "a") as csv_file:
+
+def write_new_story(story_dict, write_method='a'):
+    with open(DATA_FILE_PATH, write_method) as csv_file:
         csv.DictWriter(csv_file, fieldnames=DATA_HEADER).writerow(story_dict)
+        csv_file.close()
+
+
+def write_whole_story(story_dict, write_method='w'):
+    with open(DATA_FILE_PATH, write_method) as csv_file:
+        print(story_dict)
+        csv.writer(csv_file).writerow(DATA_HEADER)
+        for story in story_dict.values():
+            csv.DictWriter(csv_file, fieldnames=DATA_HEADER).writerow(story)
         csv_file.close()
