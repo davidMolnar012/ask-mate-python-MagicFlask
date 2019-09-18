@@ -8,23 +8,23 @@
     <h1>Add User Story</h1>
     <form method="post">
         <p>
-            <font size="4" >Story title:<br></font>
+            <font size="4" >{{table_head[1]}}<br></font>
             <input type="text" name={{table_head[1]}} minlength="5" required>
         </p>
         <p>
-            <font size="4">User Story:<br></font>
+            <font size="4">{{table_head[2]}}<br></font>
             <textarea name={{table_head[2]}} rows="4" cols="40" required></textarea>
         </p>
         <p>
-            <font size="4">Acceptance Criteria:<br></font>
+            <font size="4">{{table_head[3]}}<br></font>
             <textarea name={{table_head[3]}} rows="8" cols="40" required></textarea>
         </p>
         <p>
-            <font size="4">Business value:<br></font>
+            <font size="4">{{table_head[4]}}<br></font>
             <input type="number" name={{table_head[4]}} min="100" max="1500" step="100">
         </p>
         <p>
-            <font size="4">Estimation:<br></font>
+            <font size="4">{{table_head[5]}}<br></font>
             <input type="number" name={{table_head[5]}} min="0.5" max="40" step="0.5">
         </p>
         <button type="submit">Add new User Story</button>

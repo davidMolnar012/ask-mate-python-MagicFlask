@@ -1,30 +1,29 @@
 import csv
-import os
-
-DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'data.csv'
-DATA_HEADER = ['id', 'title', 'user_story', 'acceptance_criteria', 'business_value', 'estimation', 'status']
-STATUSES = ['planning', 'todo', 'in progress', 'review', 'done']
 
 
-def get_all_user_story():
+def get_data_header(data_file_path):
+    with open(data_file_path, newline='') as csv_file:
+        return csv_file.readline().rstrip('\r\n').split(',')
+
+
+def get_all_user_story(data_file_path):
     file_content = {}
-    with open(DATA_FILE_PATH, newline='') as csv_file:
+    table_head = get_data_header(data_file_path)
+    with open(data_file_path, newline='') as csv_file:
         for item in csv.DictReader(csv_file):
-            file_content[item[DATA_HEADER[0]]] = item
-        csv_file.close()
-    return file_content, DATA_HEADER
+            file_content[item[table_head[0]]] = item
+    return file_content
 
 
-def write_new_story(story_dict, write_method='a'):
-    with open(DATA_FILE_PATH, write_method) as csv_file:
-        csv.DictWriter(csv_file, fieldnames=DATA_HEADER).writerow(story_dict)
-        csv_file.close()
+def write_new_story(story_dict, data_file_path, write_method='a'):
+    with open(data_file_path, write_method) as csv_file:
+        csv.DictWriter(csv_file, fieldnames=get_data_header(data_file_path)).writerow(story_dict)
 
 
-def write_whole_story(story_dict, write_method='w'):
-    with open(DATA_FILE_PATH, write_method) as csv_file:
-        print(story_dict)
-        csv.writer(csv_file).writerow(DATA_HEADER)
+def write_all_story(story_dict, table_head, data_file_path, write_method='w'):
+    with open(data_file_path, write_method) as csv_file:
+        csv.writer(csv_file).writerow(table_head)
         for story in story_dict.values():
-            csv.DictWriter(csv_file, fieldnames=DATA_HEADER).writerow(story)
-        csv_file.close()
+            csv.DictWriter(csv_file, fieldnames=table_head).writerow(story)
+
+

@@ -19,26 +19,6 @@
             <font size="4">Acceptance Criteria:<br></font>
             <textarea name={{table_head[3]}} rows="8" cols="40" required>{{user_stories[story_id][table_head[3]].replace('<br>','\n')}}</textarea>
         </p>
-        <p>
-            <font size="4">Business value:<br></font>
-            <input type="number" name={{table_head[4]}} value={{user_stories[story_id][table_head[4]]}} min="100" max="1500" step="100">
-        </p>
-        <p>
-            <font size="4">Estimation:<br></font>
-            <input type="number" name={{table_head[5]}} value={{user_stories[story_id][table_head[5]]}} min="0.5" max="40" step="0.5">
-        </p>
-        <p>
-            <font size="4">Estimation:<br></font>
-            <select name="{{table_head[6]}}" >
-                <option value="{{user_stories[story_id][table_head[6]]}}" selected hidden>{{user_stories[story_id][table_head[6]]}}</option>
-                <option value="planning">planning</option>
-                <option value="todo">todo</option>
-                <option value="in progress">in progress</option>
-                <option value="review">review</option>
-                <option value="done">done</option>
-            </select>
-
-        </p>
         <button type="submit">Update User Story</button>
     </form>
 </body>

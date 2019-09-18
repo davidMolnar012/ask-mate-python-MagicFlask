@@ -25,7 +25,9 @@
                 <td>
                     {% autoescape false %}
                         {% if item == table_head[0] %}
-                            <a href="/story/{{index}}" >{{value[item]}}</a>
+                            <a href="/question/{{index}}" >{{value[item]}}</a>
+                        {% elif item == table_head[1] %}
+                            {{ value[item] | ctime }}
                         {% else %}
                             {{value[item]}}
                         {% endif %}
@@ -38,3 +40,4 @@
     </table>
 </body>
 </html>
+
