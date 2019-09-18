@@ -10,3 +10,6 @@ def dict_sort(nested_dict):
 
     return temp_dict
 
+
+def get_max_id(id_list):
+    return str(max([int(item) for item in id_list.keys()]) + 1)

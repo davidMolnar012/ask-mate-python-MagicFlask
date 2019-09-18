@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display question</title>
+</head>
+<body>
+    <h1>Display question</h1>
+    <br>
+    <h2>Question</h2>
+    <table>
+        <thead>
+            <tr>
+            {% for item in questions_head %}
+                <th>{{item.title().replace('_',' ')}}</th>
+            {% endfor %}
+            </tr>
+        <thead>
+        <tbody>
+            <tr>
+                {% for key, value in questions[story_id].items() %}
+                    <td align="center">
+                        {% autoescape false %}
+                            {% if key == 'submission_time' %}
+                                {{value | ctime }}
+                            {% else %}
+                                {{value}}
+                            {% endif %}
+                        {% endautoescape %}
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        <a href="/question/{{story_id}}/edit">Edit question</a>
+    </p>
+    <h2>Answers</h2>
+    <table>
+        <thead>
+            <tr>
+            {% for item in answers_head %}
+                <th>{{item.title().replace('_',' ')}}</th>
+            {% endfor %}
+            </tr>
+        <thead>
+        <tbody>
+        {% for answer in answers.values() %}
+            <tr>
+            {% if answer['question_id'] == story_id %}
+                {% for key, value in answer.items() %}
+                    <td align="center">
+                        {% autoescape false %}
+                            {% if key == 'submission_time' %}
+                                {{value | ctime }}
+                            {% else %}
+                                {{value}}
+                            {% endif %}
+                        {% endautoescape %}
+                    </td>
+                {% endfor %}
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        <a href="/question/{{story_id}}/new-answer/">Post an answer</a>
+    </p>
+    <p>
+        <a href="/">Back to main page</a>
+    </p>
+</body>
+</html>
+

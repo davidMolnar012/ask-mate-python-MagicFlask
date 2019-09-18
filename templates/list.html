@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome! | Super Sprinter 3000</title>
+    <title>AskMate</title>
 </head>
 <body>
-    <h1>Super Sprinter 3000</h1>
+    <h1>AskMate</h1>
     <br>
     <p>
-    <a href="/story">Add new User Story</a>
+    <a href="/question">Add new question</a>
     </p>
     <table>
         <thead>
@@ -22,7 +22,7 @@
         {% for index, value in user_stories.items() %}
             <tr>
             {% for item in table_head %}
-                <td>
+                <td align="center">
                     {% autoescape false %}
                         {% if item == table_head[0] %}
                             <a href="/question/{{index}}" >{{value[item]}}</a>
