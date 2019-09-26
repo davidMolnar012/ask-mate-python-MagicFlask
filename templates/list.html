@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>AskMate</title>
+    <link rel="stylesheet" href="../static/style.css" />
 </head>
 <body>
     <h1>AskMate</h1>
     <br>
     <p>
-    <a href="/question">Add new question</a>
+    <h2><a href="/question">Add new question</a></h2>
     </p>
     <table>
         <thead>
-            <tr>
+            <tr rowspan="2">
             {% for item in table_head %}
-                <th>{{item.title().replace('_',' ')}}</th>
+                <th colspan="2">{{item.title().replace('_',' ')}}</th>
             {% endfor %}
             </tr>
         <thead>
         <tbody>
         {% for index, value in user_stories.items() %}
-            <tr>
+            <tr rowspan="2">
             {% for item in table_head %}
-                <td align="center">
+                <td colspan="2">
                     {% autoescape false %}
                         {% if item == table_head[0] %}
-                            <a href="/question/{{index}}" >{{value[item]}}</a>
+                            <h3><a href="/question/{{index}}" >{{value[item]}}</a></h3>
                         {% elif item == table_head[1] %}
                             {{ value[item] | ctime }}
                         {% else %}

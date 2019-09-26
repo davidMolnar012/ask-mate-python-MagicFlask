@@ -1,0 +1,35 @@
+body {
+    font-size: 14px;
+    color: black;
+    background: #fafafa;
+}
+/* This is a comment, by the way */
+
+h1 {
+    font-size: 3em;
+    margin: 20px;
+    padding: 40px;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.3em;
+    padding: 0px;
+}
+
+table {
+    font-family: arial, helvetica, serif;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
