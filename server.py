@@ -7,9 +7,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def route_list1():
-    latest_5_answers = data_manager.get_latest_5_answers()
-    print(latest_5_answers)
+    latest_5_answers = data_manager.get_latest_answers(5)
     return render_template('index.html' , answers=latest_5_answers)
+
+
+@app.route('/list')
+def route_list2():
+    answers = data_manager.get_latest_answers()
+    return render_template('index.html', answers=answers)
+
 
 
 if __name__ == '__main__':
