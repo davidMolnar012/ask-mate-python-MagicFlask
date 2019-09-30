@@ -12,7 +12,15 @@
     <h2><a href="/question">Add new question</a></h2>
     </p>
     <table>
-
+        <tbody>
+            {% for record in answers %}
+                <tr>
+                    {% for element in record.values() %}
+                        <td>{{ element }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>
