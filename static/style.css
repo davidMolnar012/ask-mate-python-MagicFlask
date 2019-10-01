@@ -21,15 +21,18 @@ h3 {
 }
 
 table {
-    font-family: arial, helvetica, serif;
-    font-weight: normal;
-    font-style: normal;
-    text-decoration: none;
-    text-transform: none;
-    text-align: center;
     border-collapse: collapse;
+    text-align: center;
+
+}
+thead{
+    font-weight: bold;
+
+
+}
+tbody, td, th {
+    font-family: arial, helvetica, serif;
+    text-align: center;
+    border: 1px solid black;
 }
 
-table, th, td {
-  border: 1px solid black;
-}

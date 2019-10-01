@@ -2,73 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Display question</title>
+    <title>AskMate</title>
+    <link rel="stylesheet" href="../static/style.css" />
 </head>
 <body>
-    <h1>Display question</h1>
+    <h1>Question with id {{ question_id }}</h1>
     <br>
     <h2>Question</h2>
     <table>
         <thead>
             <tr>
-            {% for item in questions_head %}
-                <th>{{item.title().replace('_',' ')}}</th>
-            {% endfor %}
-            </tr>
-        <thead>
-        <tbody>
-            <tr>
-                {% for key, value in questions[story_id].items() %}
-                    <td align="center">
-                        {% autoescape false %}
-                            {% if key == 'submission_time' %}
-                                {{value | ctime }}
-                            {% else %}
-                                {{value}}
-                            {% endif %}
-                        {% endautoescape %}
-                    </td>
+                {% for head_element in question[0].keys() %}
+                    <td>{{ head_element.title().replace('_', ' ') }}</td>
                 {% endfor %}
             </tr>
+        </thead>
+        <tbody>
+            {% for record in question %}
+                <tr>
+                    {% for head, element in record.items() %}
+                        <td>
+                            {% if head == 'id' %}
+                                <a href="/question/{{ element }}">{{ element }}</a>
+                            {% else %}
+                                {{ element }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     <p>
-        <a href="/question/{{story_id}}/edit">Edit question</a>
+        <h3><a href="/question/{{ question_id }}/edit">Edit question</a></h3>
     </p>
     <h2>Answers</h2>
     <table>
         <thead>
             <tr>
-            {% for item in answers_head %}
-                <th>{{item.title().replace('_',' ')}}</th>
-            {% endfor %}
-            </tr>
-        <thead>
-        <tbody>
-        {% for answer in answers.values() %}
-            <tr>
-            {% if answer['question_id'] == story_id %}
-                {% for key, value in answer.items() %}
-                    <td align="center">
-                        {% autoescape false %}
-                            {% if key == 'submission_time' %}
-                                {{value | ctime }}
-                            {% else %}
-                                {{value}}
-                            {% endif %}
-                        {% endautoescape %}
-                    </td>
+                {% for head_element in answers[0].keys() %}
+                    <td>{{ head_element.title().replace('_', ' ') }}</td>
                 {% endfor %}
-            {% endif %}
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for record in answers %}
+                <tr>
+                    {% for head, element in record.items() %}
+                        <td>
+                            {% if head == 'id' %}
+                                <a href="/question/{{ element }}">{{ element }}</a>
+                            {% else %}
+                                {{ element }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     <p>
-        <a href="/question/{{story_id}}/new-answer/">Post an answer</a>
-    </p>
-    <p>
-        <a href="/">Back to main page</a>
+        <h3><a href="{{ url_for('index') }}">Back to main page</a></h3>
     </p>
 </body>
 </html>
