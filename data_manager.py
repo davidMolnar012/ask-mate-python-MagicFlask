@@ -3,14 +3,19 @@ from psycopg2 import sql
 
 
 @database_common.connection_handler
-def select_sql(cursor, table, column='*', clause='', condition=[],
+def select_sql(cursor, table, column='*', clause='', condition=[], clause_operator='', condition2=[],
                order_column='', order_asc_desc='', limit='', offset=''):
     """"""
+    space = " "
     if len(condition) == 3:
         condition[2] = '\'' + str(condition[2]) + '\''
+    if len(condition2) == 3:
+        condition2[2] = '\'' + str(condition2[2]) + '\''
     cursor.execute(sql.SQL(
         f'SELECT {column} FROM {table} '
-        f'{clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}'
+        f'{clause} {condition[0] + space + condition[1] + space + condition[2] if len(condition) == 3 else ""}'
+        f' {clause_operator} '
+        f'{condition2[0] + space + condition2[1] + space + condition2[2] if len(condition2) == 3 else ""}'
         f'{" ORDER BY " if order_column else ""}{order_column}{" " if order_asc_desc else ""}{order_asc_desc}'
         f'{" LIMIT " if limit else ""}{limit}'
         f'{" OFFSET " if offset else ""}{offset}'
@@ -45,5 +50,7 @@ def get_table_head(cursor, table):
 def delete_record(cursor, table, clause, condition=[]):
     if len(condition) == 3:
         condition[2] = '\'' + str(condition[2]) + '\''
-    cursor.execute(sql.SQL(f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}'))
+    cursor.execute(sql.SQL(
+        f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}')
+    )
 
