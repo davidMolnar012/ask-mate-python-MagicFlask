@@ -14,7 +14,17 @@
         <thead>
             <tr>
                 {% for head_element in questions[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>
+                        {{ head_element.title().replace('_', ' ') }}
+                        <form action="/list">
+                            <select name="{{ head_element }}">
+                                 <option value="DESC" selected >Descend</option>
+                                 <option value="ASC" >Ascend</option>
+                            </select>
+                            <br>
+                            <button type="submit">Sort</button>
+                        </form>
+                    </td>
                 {% endfor %}
             </tr>
         </thead>

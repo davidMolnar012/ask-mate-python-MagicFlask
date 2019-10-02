@@ -16,6 +16,11 @@ def index():
 
 @app.route('/list')
 def list_all():
+    if request.args:
+        questions = data_manager.select_sql(
+            'question', order_column=[*request.args.keys()][0], order_asc_desc=[*request.args.values()][0]
+        )
+        return render_template('list_all.html', questions=questions)
     questions = data_manager.select_sql(
         'question', order_column='submission_time', order_asc_desc='DESC'
     )
