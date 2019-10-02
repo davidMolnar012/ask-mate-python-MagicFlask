@@ -94,6 +94,23 @@ def delete_answer(answer_id):
     return redirect('/')
 
 
+@app.route('/search')
+def search():
+    questions = data_manager.select_sql(
+        'question', clause='WHERE', condition=['title', 'LIKE', '%' + [*request.args.values()][0] + '%'],
+        clause_operator='OR', condition2=['message', 'LIKE', '%' + [*request.args.values()][0] + '%']
+                                        )
+    answer_id = data_manager.select_sql(
+        'answer', clause='WHERE', condition=['message', 'LIKE', '%' + [*request.args.values()][0] + '%'])
+    answer_id = [*{i['question_id'] for i in answer_id}]
+    for item in answer_id:
+        if item not in [*{i['id'] for i in questions}]:
+            questions += data_manager.select_sql('question', clause='WHERE', condition=['id', '=', item])
+    if questions:
+        return render_template('list_all.html', questions=questions)
+    return redirect('/')
+
+
 @app.route('/debug-url')
 def asdasd():
     return redirect('/')
