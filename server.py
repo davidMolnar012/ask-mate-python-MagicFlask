@@ -27,12 +27,17 @@ def list_all():
     return render_template('list_all.html', questions=questions)
 
 
+@app.route('/picture/<path:picture>')
+def show_picture(picture):
+    return render_template('picture.html', picture=picture, return_url=request.referrer)
+
+
 @app.route('/question/<int:question_id>')
 def show_question(question_id):
     question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
     answers = data_manager.select_sql('answer', clause='WHERE', condition=['question_id', '=', question_id])
     if not answers:
-        answers = [{'Answers': 'This question doesn\'t has any answer yet.'}]
+        answers = [{'Answers': 'This question list_alldoesn\'t has any answer yet.'}]
     question[0]['view_number'] += 1
     data_manager.update_sql(
         table='question', column='view_number',
