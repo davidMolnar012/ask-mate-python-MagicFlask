@@ -9,15 +9,15 @@
     <h1>Add new question</h1>
     <form method="post">
         <p>
-            <font size="4" >{{table_head[4].capitalize().replace('_',' ')}}<br></font>
+            <font>{{table_head[4].capitalize().replace('_',' ')}}<br></font>
             <input type="text" name={{table_head[4]}} minlength="5" required>
         </p>
         <p>
-            <font size="4">{{table_head[5].capitalize().replace('_',' ')}}<br></font>
+            <font>{{table_head[5].capitalize().replace('_',' ')}}<br></font>
             <textarea name={{table_head[5]}} rows="4" cols="40" required></textarea>
         </p>
         <p>
-            <font size="4" >{{table_head[6].capitalize().replace('_',' ')}}<br></font>
+            <font>{{table_head[6].capitalize().replace('_',' ')}}<br></font>
             <input type="text" name={{table_head[6]}} minlength="5">
         </p>
         <button type="submit">Add new question</button>

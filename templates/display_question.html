@@ -34,7 +34,9 @@
         </tbody>
     </table>
     <p>
-        <h3><a href="/question/{{ question_id }}/edit">Edit question</a></h3>
+        <h3><a href="/question/{{ question_id }}/edit">Edit question</a>
+        <h3><a href="/question/{{ question_id }}/delete">Delete question</a></h3>
+
     </p>
     <h2>Answers</h2>
     <table>
@@ -51,7 +53,7 @@
                     {% for head, element in record.items() %}
                         <td>
                             {% if head == 'id' %}
-                                <a href="/question/{{ element }}">{{ element }}</a>
+                                <a href="/answer/{{ element }}/delete">{{ element }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}
@@ -62,6 +64,7 @@
         </tbody>
     </table>
     <p>
+        <h3><a href="/question/{{ question_id }}/new-answer">Add answer</a>
         <h3><a href="{{ url_for('index') }}">Back to main page</a></h3>
     </p>
 </body>

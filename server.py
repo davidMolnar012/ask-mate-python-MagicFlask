@@ -25,7 +25,7 @@ def list_all():
 @app.route('/question/<int:question_id>')
 def show_question(question_id):
     question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
-    answers = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
+    answers = data_manager.select_sql('answer', clause='WHERE', condition=['question_id', '=', question_id])
     if not answers:
         answers = [{'Answers': 'This question doesn\'t has any answer yet.'}]
     question[0]['view_number'] += 1
@@ -63,9 +63,34 @@ def edit_question(question_id):
     return render_template('update_question.html', table_head=table_head, question=question, question_id=question_id)
 
 
+@app.route('/question/<int:question_id>/delete', methods=['GET', 'POST'])
+def delete_question(question_id):
+    data_manager.delete_record('question', clause='WHERE', condition=['id', '=', question_id])
+    return redirect('/')
+
+
+@app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
+def add_answer(question_id):
+    table_head = data_manager.get_table_head('answer')
+    if request.method == 'POST':
+        new_record = {table_head[1]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
+                      table_head[2]: '0', table_head[3]: str(question_id),
+                      table_head[4]: request.form[table_head[4]],
+                      table_head[5]: f'{request.form[table_head[5]] if request.form[table_head[5]] else None}'}
+        data_manager.insert_record('answer', new_record)
+        print(new_record)
+        return redirect(f'/question/{question_id}')
+    return render_template('new_answer.html', table_head=table_head, question_id=question_id)
+
+
+@app.route('/answer/<int:answer_id>/delete', methods=['GET', 'POST'])
+def delete_answer(answer_id):
+    data_manager.delete_record('answer', clause='WHERE', condition=['id', '=', answer_id])
+    return redirect('/')
+
+
 @app.route('/debug-url')
 def asdasd():
-    print(strftime("%Y-%m-%d %H:%M:%S.%F", gmtime()))
     return redirect('/')
 
 
