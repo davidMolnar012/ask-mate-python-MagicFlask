@@ -25,6 +25,12 @@
                         <td>
                             {% if head == 'id' %}
                                 <a href="/question/{{ element }}">{{ element }}</a>
+                            {% elif head == 'image' %}
+                                {% if element == None %}
+                                    <img src="https://png.pngtree.com/svg/20170616/question_mark_333663.png" width="100" height="100" alt="default icon">
+                                {% else %}
+                                    <img src="{{ element }}" width="100" height="100" alt="icon">
+                                {% endif %}
                             {% else %}
                                 {{ element }}
                             {% endif %}
