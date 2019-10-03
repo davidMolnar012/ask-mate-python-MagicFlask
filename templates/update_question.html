@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit question</title>
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
     <h1>Edit question</h1>
@@ -13,11 +14,11 @@
         </p>
         <p>
             <font>{{table_head[5].capitalize().replace('_',' ')}}<br></font>
-            <textarea name={{table_head[5]}} required>{{question[0][table_head[5]].replace('<br>','\n') if question[0][table_head[5]] != None}}</textarea>
+            <textarea  cols="40" rows="10" name={{table_head[5]}} required>{{question[0][table_head[5]].replace('<br>','\n') if question[0][table_head[5]] != None}}</textarea>
         </p>
         <p>
             <font>{{table_head[6].capitalize().replace('_',' ')}}<br></font>
-            <textarea name={{table_head[6]}} required>{{question[0][table_head[6]].replace('<br>','\n') if question[0][table_head[6]] != None}}</textarea>
+            <textarea  cols="40" rows="3" name={{table_head[6]}} required>{{question[0][table_head[6]].replace('<br>','\n') if question[0][table_head[6]] != None}}</textarea>
         </p>
         <button type="submit">Update question</button>
     </form>

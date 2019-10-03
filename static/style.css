@@ -1,7 +1,7 @@
 body {
     font-size: 14px;
-    color: black;
-    background: #fafafa;
+    color: white;
+    background: #0000ff url(https://wallpaperbro.com/img/30622.jpg);
 }
 /* This is a comment, by the way */
 
@@ -9,6 +9,7 @@ h1 {
     font-size: 3em;
     margin: 20px;
     padding: 40px;
+    color: white;
 }
 
 h2 {
@@ -17,7 +18,7 @@ h2 {
 
 h3 {
     font-size: 1.3em;
-    padding: 0px;
+    padding: 0;
 }
 
 table {
@@ -36,7 +37,6 @@ tbody, td, th {
     border: 1px solid black;
 }
 
-#vote{
-    height:50px;
-    width:50px;
+a{
+    color: white;
 }

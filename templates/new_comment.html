@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Add new comment</title>
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
     <h1>Add new comment</h1>
     <form method="post">
         <p>
             <font>{{table_head[3].capitalize().replace('_',' ')}}<br></font>
-            <input type="text" name={{table_head[3]}} minlength="5" required>
+            <textarea cols="40" rows="10" name={{table_head[3]}} minlength="5" required></textarea>
         </p>
         <button type="submit">Add new comment</button>
     </form>
