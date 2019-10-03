@@ -38,7 +38,7 @@ def show_question(question_id):
     answers = data_manager.select_sql('answer', clause='WHERE', condition=['question_id', '=', question_id])
     
     if not answers:
-        answers = [{'Answers': 'This question list_doesn\'t has any answer yet.'}]
+        answers = [{'Answers': 'This question doesn\'t have any answer yet.'}]
     question[0]['view_number'] += 1
     data_manager.update_sql(
         table='question', column='view_number',
@@ -94,11 +94,14 @@ def edit_question(question_id):
     if request.method == 'POST':
         for column_name, element in request.form.items():
             data_manager.update_sql('question', column_name, element, update_condition=f'id={question_id}')
+        return redirect(f'/question/{question_id}')
     return render_template('update_question.html', table_head=table_head, question=question, question_id=question_id)
 
 
 @app.route('/question/<int:question_id>/delete', methods=['GET', 'POST'])
 def delete_question(question_id):
+    data_manager.delete_record('comment', clause='WHERE', condition=['question_id', '=', question_id])
+    data_manager.delete_record('answer', clause='WHERE', condition=['question_id', '=', question_id])
     data_manager.delete_record('question', clause='WHERE', condition=['id', '=', question_id])
     return redirect('/')
 
@@ -117,8 +120,9 @@ def add_answer(question_id):
     return render_template('new_answer.html', table_head=table_head, question_id=question_id)
 
 
-@app.route('/answer/<int:answer_id>/delete', methods=['GET', 'POST'])
+@app.route('/answer/<int:answer_id>/delete')
 def delete_answer(answer_id):
+    data_manager.delete_record('comment', clause='WHERE', condition=['answer_id', '=', answer_id])
     data_manager.delete_record('answer', clause='WHERE', condition=['id', '=', answer_id])
     return redirect('/')
 
@@ -138,6 +142,29 @@ def search():
     if questions:
         return render_template('list_all.html', questions=questions)
     return redirect('/')
+
+
+@app.route('/answer/<int:answer_id>')
+def show_answer(answer_id):
+    answer = data_manager.select_sql('answer', clause='WHERE', condition=['id', '=', answer_id])
+    comments = data_manager.select_sql('comment', clause='WHERE', condition=['answer_id', '=', answer_id])
+    if not comments:
+        comments = [{'Comments': 'This answer doesn\'t have any comments yet.'}]
+    return render_template(
+        'display_answer.html', answer=answer, comments=comments,
+        answer_id=answer_id, question_id=answer[0]['question_id']
+    )
+
+
+@app.route('/answer/<int:answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    table_head = data_manager.get_table_head('answer')
+    answer = data_manager.select_sql('answer', clause='WHERE', condition=['id', '=', answer_id])
+    if request.method == 'POST':
+        for column_name, element in request.form.items():
+            data_manager.update_sql('answer', column_name, element, update_condition=f'id={answer_id}')
+        return redirect(f'/answer/{answer_id}')
+    return render_template('update_answer.html', table_head=table_head, answer=answer, answer_id=answer_id)
 
 
 @app.route('/debug-url')

@@ -6,20 +6,19 @@
     <link rel="stylesheet" href="../static/style.css" />
 </head>
 <body>
-    <h1>Question with id {{ question_id }}</h1>
+    <h1>Answer with id {{ answer_id }}</h1>
     <br>
-    <h2>Question</h2>
+    <h2>Answer</h2>
     <table>
         <thead>
             <tr>
-                {% for head_element in question[0].keys() %}
+                {% for head_element in answer[0].keys() %}
                     <td>{{ head_element.title().replace('_', ' ') }}</td>
                 {% endfor %}
-                <td>Vote</td>
             </tr>
         </thead>
         <tbody>
-            {% for record in question %}
+            {% for record in answer %}
                 <tr>
                     {% for head, element in record.items() %}
                         <td>
@@ -36,36 +35,25 @@
                             {% endif %}
                         </td>
                     {% endfor %}
-                    <td>
-                        <form action="/question/{{ question_id }}/vote-up">
-                            <button  type="submit">Up</button>
-                        </form>
-                        <form action="/question/{{ question_id }}/vote-down">
-                            <button  type="submit">Down</button>
-                        </form>
-
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <p>
-        <h3><a href="/question/{{ question_id }}/edit">Edit question</a>
-        <a href="/question/{{ question_id }}/delete">Delete question</a></h3>
-
+        <h3><a href="/answer/{{ answer_id }}/edit">Edit answer</a>
+        <h3><a href="/answer/{{ answer_id }}/delete">Delete answer</a></h3>
     </p>
-    <h2>Answers</h2>
+    <h2>Comments</h2>
     <table>
         <thead>
             <tr>
-                {% for head_element in answers[0].keys() %}
+                {% for head_element in comments[0].keys() %}
                     <td>{{ head_element.title().replace('_', ' ') }}</td>
                 {% endfor %}
-                <td>Vote</td>
             </tr>
         </thead>
         <tbody>
-            {% for record in answers %}
+            {% for record in comments %}
                 <tr>
                     {% for head, element in record.items() %}
                         <td>
@@ -82,21 +70,13 @@
                             {% endif %}
                         </td>
                     {% endfor %}
-                    <td>
-                        <form action="/answer/{{ record.id }}/vote-up">
-                            <button  type="submit">Up</button>
-                        </form>
-                        <form action="/answer/{{ record.id }}/vote-down">
-                            <button  type="submit">Down</button>
-                        </form>
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <p>
-        <h3><a href="/question/{{ question_id }}/new-answer">Add answer</a>
-        <a href="{{ url_for('index') }}">Back to main page</a></h3>
+        <h3><a href="/answer/{{ answer_id }}/new-comment">Add comment</a>
+        <h3><a href="/question/{{ question_id }}">Back to question {{ question_id }}</a></h3>
     </p>
 </body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit answer</title>
+</head>
+<body>
+    <h1>Edit answer</h1>
+    <form method="post">
+        <p>
+            <font >{{table_head[4].capitalize().replace('_',' ')}}<br></font>
+            <input type="text" name={{table_head[4]}} value='{{answer[0][table_head[4]] if answer[0][table_head[4]] != None}}' required>
+        </p>
+        <p>
+            <font>{{table_head[5].capitalize().replace('_',' ')}}<br></font>
+            <textarea name={{table_head[5]}} rows="4" cols="40" required>{{answer[0][table_head[5]].replace('<br>','\n') if answer[0][table_head[5]] != None}}</textarea>
+        </p>
+        <button type="submit">Update answer</button>
+    </form>
+    <p>
+        <a href="/answer/{{answer_id}}">Back to answer {{answer_id}}</a>
+    </p>
+    <p>
+        <a href="/">Main page</a>
+    </p>
+</body>
+</html>
