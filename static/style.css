@@ -35,3 +35,8 @@ tbody, td, th {
     text-align: center;
     border: 1px solid black;
 }
+
+#vote{
+    height:50px;
+    width:50px;
+}

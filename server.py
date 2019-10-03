@@ -36,14 +36,38 @@ def show_picture(picture):
 def show_question(question_id):
     question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
     answers = data_manager.select_sql('answer', clause='WHERE', condition=['question_id', '=', question_id])
+    
     if not answers:
-        answers = [{'Answers': 'This question list_alldoesn\'t has any answer yet.'}]
+        answers = [{'Answers': 'This question list_doesn\'t has any answer yet.'}]
     question[0]['view_number'] += 1
     data_manager.update_sql(
         table='question', column='view_number',
         update_value=question[0]['view_number'], update_condition=f'id={question_id}'
     )
     return render_template('display_question.html', question=question, answers=answers, question_id=question_id)
+
+
+@app.route('/<table>/<int:question_id>/vote-<vote_direction>')
+def vote(question_id, vote_direction, table):
+    
+    table_data = data_manager.select_sql(table, clause='WHERE', condition=['id', '=', question_id])
+    if vote_direction == 'up':
+        table_data[0]['vote_number'] += 1
+    elif vote_direction == 'down':
+        table_data[0]['vote_number'] -= 1
+    data_manager.update_sql(
+        table=table, column='vote_number',
+        update_value=table_data[0]['vote_number'], update_condition=f'id={question_id}'
+    )
+
+    question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
+    question[0]['view_number'] -= 1
+    data_manager.update_sql(
+        table='question', column='view_number',
+        update_value=question[0]['view_number'], update_condition=f'id={question_id}'
+    )
+    
+    return redirect(f'/question/{question_id}')
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -104,7 +128,7 @@ def search():
     questions = data_manager.select_sql(
         'question', clause='WHERE', condition=['title', 'LIKE', '%' + [*request.args.values()][0] + '%'],
         clause_operator='OR', condition2=['message', 'LIKE', '%' + [*request.args.values()][0] + '%']
-                                        )
+    )
     answer_id = data_manager.select_sql(
         'answer', clause='WHERE', condition=['message', 'LIKE', '%' + [*request.args.values()][0] + '%'])
     answer_id = [*{i['question_id'] for i in answer_id}]
