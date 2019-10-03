@@ -9,11 +9,11 @@
     <form method="post">
         <p>
             <font>{{table_head[4].capitalize().replace('_',' ')}}<br></font>
-            <input type="text" name={{table_head[4]}} minlength="5" required>
+            <textarea cols="40" rows="10" type="text" name={{table_head[4]}} minlength="5" required></textarea>
         </p>
         <p>
             <font>{{table_head[5].capitalize().replace('_',' ')}}<br></font>
-            <input type="text" name={{table_head[5]}} minlength="5">
+            <input type="textarea" name={{table_head[5]}} minlength="5">
         </p>
         <button type="submit">Add new answer</button>
     </form>

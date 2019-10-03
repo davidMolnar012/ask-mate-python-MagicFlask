@@ -36,38 +36,45 @@ def show_picture(picture):
 def show_question(question_id):
     question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
     answers = data_manager.select_sql('answer', clause='WHERE', condition=['question_id', '=', question_id])
-    
+    comments = data_manager.select_sql('comment', clause='WHERE', condition=['question_id', '=', question_id])
+    comment_head = data_manager.get_table_head('comment')
     if not answers:
         answers = [{'Answers': 'This question doesn\'t have any answer yet.'}]
+    if not comments:
+        comment_head = ['Comments']
+        comments = [{'Comments': 'This answer doesn\'t have any comment yet.'}]
     question[0]['view_number'] += 1
     data_manager.update_sql(
         table='question', column='view_number',
         update_value=question[0]['view_number'], update_condition=f'id={question_id}'
     )
-    return render_template('display_question.html', question=question, answers=answers, question_id=question_id)
+    return render_template(
+        'display_question.html', question=question, answers=answers, comments=comments, question_id=question_id,
+        comment_head=comment_head
+    )
 
 
-@app.route('/<table>/<int:question_id>/vote-<vote_direction>')
-def vote(question_id, vote_direction, table):
+@app.route('/<table>/<int:id_>/vote-<vote_direction>')
+def vote(id_, vote_direction, table):
     
-    table_data = data_manager.select_sql(table, clause='WHERE', condition=['id', '=', question_id])
+    table_data = data_manager.select_sql(table, clause='WHERE', condition=['id', '=', id_])
     if vote_direction == 'up':
         table_data[0]['vote_number'] += 1
     elif vote_direction == 'down':
         table_data[0]['vote_number'] -= 1
     data_manager.update_sql(
         table=table, column='vote_number',
-        update_value=table_data[0]['vote_number'], update_condition=f'id={question_id}'
+        update_value=table_data[0]['vote_number'], update_condition=f'id={id_}'
     )
-
-    question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
+    if table == 'answer':
+        id_ = table_data[0]['question_id']
+    question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', id_])
     question[0]['view_number'] -= 1
     data_manager.update_sql(
         table='question', column='view_number',
-        update_value=question[0]['view_number'], update_condition=f'id={question_id}'
+        update_value=question[0]['view_number'], update_condition=f'id={id_}'
     )
-    
-    return redirect(f'/question/{question_id}')
+    return redirect(f'/question/{id_}')
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -115,7 +122,6 @@ def add_answer(question_id):
                       table_head[4]: request.form[table_head[4]],
                       table_head[5]: f'{request.form[table_head[5]] if request.form[table_head[5]] else None}'}
         data_manager.insert_record('answer', new_record)
-        print(new_record)
         return redirect(f'/question/{question_id}')
     return render_template('new_answer.html', table_head=table_head, question_id=question_id)
 
@@ -148,10 +154,11 @@ def search():
 def show_answer(answer_id):
     answer = data_manager.select_sql('answer', clause='WHERE', condition=['id', '=', answer_id])
     comments = data_manager.select_sql('comment', clause='WHERE', condition=['answer_id', '=', answer_id])
+    comment_head = data_manager.get_table_head('comment')
     if not comments:
         comments = [{'Comments': 'This answer doesn\'t have any comments yet.'}]
     return render_template(
-        'display_answer.html', answer=answer, comments=comments,
+        'display_answer.html', answer=answer, comments=comments, comment_head=comment_head,
         answer_id=answer_id, question_id=answer[0]['question_id']
     )
 
@@ -165,6 +172,29 @@ def edit_answer(answer_id):
             data_manager.update_sql('answer', column_name, element, update_condition=f'id={answer_id}')
         return redirect(f'/answer/{answer_id}')
     return render_template('update_answer.html', table_head=table_head, answer=answer, answer_id=answer_id)
+
+
+@app.route('/<table_name>/<id_>/new-comment', methods=['GET', 'POST'])
+def add_comment(table_name, id_):
+    comment_head = data_manager.get_table_head('comment')
+    if request.method == 'POST':
+        if table_name == 'question':
+            new_record = {comment_head[1]: id_,
+                          comment_head[3]: request.form[comment_head[3]],
+                          comment_head[4]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
+                          comment_head[5]: '0'
+                          }
+            data_manager.insert_record('comment', new_record)
+        elif table_name == 'answer':
+
+            new_record = {comment_head[1]: '0', comment_head[2]: id_,
+                          comment_head[3]: request.form[comment_head[3]],
+                          comment_head[4]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
+                          comment_head[5]: '0'
+                          }
+            data_manager.insert_record('comment', new_record)
+        return redirect(f'/{table_name}/{id_}')
+    return render_template('new_comment.html', table_head=comment_head, table_name=table_name, id=id_)
 
 
 @app.route('/debug-url')

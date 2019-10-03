@@ -57,21 +57,19 @@
                 <tr>
                     {% for head, element in record.items() %}
                         <td>
-                            {% if head == 'id' %}
-                                <a href="/answer/{{ element }}">{{ element }}</a>
-                            {% elif head == 'image' %}
-                                {% if element == 'None' %}
-                                    <img src="https://png.pngtree.com/svg/20170616/question_mark_333663.png" width="50" height="50" alt="default icon">
-                                {% else %}
-                                    <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
-                                {% endif %}
-                            {% else %}
                                 {{ element }}
-                            {% endif %}
                         </td>
                     {% endfor %}
+                        <td>
+                            <a href="/comments/{{ record.id }}/edit">Edit</a>
+                        </td>
+                        <td>
+                            <a href="/comments/{{ record.id }}/delete">Delete</a>
+                        </td>
+
                 </tr>
             {% endfor %}
+
         </tbody>
     </table>
     <p>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new comment</title>
+</head>
+<body>
+    <h1>Add new comment</h1>
+    <form method="post">
+        <p>
+            <font>{{table_head[3].capitalize().replace('_',' ')}}<br></font>
+            <input type="text" name={{table_head[3]}} minlength="5" required>
+        </p>
+        <button type="submit">Add new comment</button>
+    </form>
+    <p>
+        <a href="/{{ table_name }}/{{ id }}">Back to {{ table_name }}</a>
+    </p>
+    <p>
+        <a href="/">Main menu</a>
+    </p>
+</body>
+</html>

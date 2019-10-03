@@ -49,10 +49,40 @@
             {% endfor %}
         </tbody>
     </table>
-    <p>
-        <h3><a href="/question/{{ question_id }}/edit">Edit question</a>
-        <a href="/question/{{ question_id }}/delete">Delete question</a></h3>
+    <h2>Comments</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for element in comment_head %}
+                    <td>{{ element.title().replace('_', ' ') }}</td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in comments %}
+                <tr>
+                    {% for table_name, element in record.items() %}
+                            <td>{{ element }}</td>
 
+                    {% endfor %}
+
+                    <td>
+                        <a href="/comments/{{ record.id }}/edit">Edit</a>
+                    </td>
+                    <td>
+                        <a href="/comments/{{ record.id }}/delete">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <p>
+        <h3>
+            <a href="/question/{{ question_id }}/edit">Edit question</a>
+            <a href="/question/{{ question_id }}/delete">Delete question</a>
+            <a href="/question/{{ question_id }}/new-comment">Add comment</a>
+        </h3>
     </p>
     <h2>Answers</h2>
     <table>
