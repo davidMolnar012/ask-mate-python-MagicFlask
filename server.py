@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from time import gmtime, strftime
 
 import data_manager
@@ -56,7 +56,6 @@ def show_question(question_id):
 
 @app.route('/<table>/<int:id_>/vote-<vote_direction>')
 def vote(id_, vote_direction, table):
-    
     table_data = data_manager.select_sql(table, clause='WHERE', condition=['id', '=', id_])
     if vote_direction == 'up':
         table_data[0]['vote_number'] += 1
@@ -195,6 +194,21 @@ def add_comment(table_name, id_):
             data_manager.insert_record('comment', new_record)
         return redirect(f'/{table_name}/{id_}')
     return render_template('new_comment.html', table_head=comment_head, table_name=table_name, id=id_)
+
+
+@app.route('/<table_name>/<id_>/delete')
+def delete_comment(table_name, id_):
+    comment_row = data_manager.select_sql(
+        table='comment', clause='WHERE', condition=['id', '=', id_]
+    )
+    if comment_row[0]['answer_id'] is None:
+        redirect_table = 'question'
+        redirect_id = comment_row[0]['question_id']
+    else:
+        redirect_table = 'answer'
+        redirect_id = comment_row[0]['answer_id']
+    data_manager.delete_record(table='comment', clause='WHERE', condition=['id', '=', id_])
+    return redirect(f'/{redirect_table}/{redirect_id}')
 
 
 @app.route('/debug-url')
