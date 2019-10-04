@@ -199,20 +199,22 @@ def add_comment(table_name, id_):
 @app.route('/comments/<int:comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
     table_head = data_manager.get_table_head('comment')
-    comment_row = data_manager.select_sql(
+    comment = data_manager.select_sql(
         table='comment', clause='WHERE', condition=['id', '=', comment_id]
     )
-    if comment_row[0]['answer_id'] is None:
+    if comment[0]['answer_id'] is None:
         redirect_table = 'question'
-        redirect_id = comment_row[0]['question_id']
+        redirect_id = comment[0]['question_id']
     else:
         redirect_table = 'answer'
-        redirect_id = comment_row[0]['answer_id']
-
-    comment = data_manager.select_sql('comment', clause='WHERE', condition=['id', '=', comment_id])
+        redirect_id = comment[0]['answer_id']
+    print(comment)
     if request.method == 'POST':
         for column_name, element in request.form.items():
             data_manager.update_sql('comment', column_name, element, update_condition=f'id={comment_id}')
+        data_manager.update_sql(
+            'comment', 'edited_count', comment[0]['edited_count'] + 1, update_condition=f'id={comment_id}'
+        )
         return redirect(f'/{redirect_table}/{redirect_id}')
     return render_template(
         'update_comment.html', table_head=table_head, comment=comment,
