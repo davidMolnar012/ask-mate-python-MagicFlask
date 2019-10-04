@@ -145,7 +145,7 @@ def search():
         if item not in [*{i['id'] for i in questions}]:
             questions += data_manager.select_sql('question', clause='WHERE', condition=['id', '=', item])
     if questions:
-        return render_template('list_all.html', questions=questions)
+        return render_template('fancy_search.html', questions=questions, search_frase=[*request.args.values()][0] )
     return redirect('/')
 
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AskMate</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <h1>Result for: "{{ search_frase }}"</h1>
+    <table>
+        <thead>
+            <tr>
+                {% for head_element in questions[0].keys() %}
+                    <td>
+                        {{ head_element.title().replace('_', ' ') }}
+                    </td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in questions %}
+                <tr>
+                    {% for head, element in record.items() %}
+                        <td>
+                            {% if head == 'id' %}
+                                <a href="/question/{{ element }}">{{ element }}</a>
+                            {% elif head == 'image' %}
+                                {% if element == 'None' %}
+                                    <img src="https://png.pngtree.com/svg/20170616/question_mark_333663.png" width="50" height="50" alt="default icon">
+                                {% else %}
+                                    <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
+                                {% endif %}
+                            {% else %}
+                                {{ element }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3><a href="{{ url_for('index') }}">Back to main page</a></h3>
+</body>
+</html>
+
