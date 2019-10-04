@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit comment</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <h1>Edit comment</h1>
+    <form method="post">
+        <p>
+            <font>{{table_head[5].capitalize().replace('_',' ')}}<br></font>
+            <textarea  cols="40" rows="10" name={{table_head[3]}} required>{{comment[0][table_head[3]].replace('<br>','\n') if comment[0][table_head[5]] != None}}</textarea>
+        </p>
+        <button type="submit">Update comment</button>
+    </form>
+    <p>
+        <a href="/{{ redirect_table }}/{{redirect_id}}">Back to {{ redirect_table }}</a>
+    </p>
+    <p>
+        <a href="/">Main page</a>
+    </p>
+</body>
+</html>
