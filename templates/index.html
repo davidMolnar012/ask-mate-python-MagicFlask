@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
+    <h3 class="login_banner">{{ login_status_message }}<br>
+        <form action="{{ 'login' if 'not logged' in login_status_message else 'logout'}}">
+            <button>
+                {{ 'Login' if 'not logged' in login_status_message else 'Logout'}}
+            </button>
+        </form>
+    </h3>
     <h1>AskMate mk2</h1>
     <br>
     <form action="/search">

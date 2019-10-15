@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<form method="post">
+    <h1>Login</h1>
+    <p>User name: <input type="text" name="user_name"></p>
+    <p>Password: <input type="password" name="password"></p>
+    <input type="submit" value="Submit">
+    <h4>{{ 'Wrong username or password!' if login_fail}}</h4>
+</form>
+</body>
+</html>

@@ -40,3 +40,7 @@ tbody, td, th {
 a{
     color: white;
 }
+
+.login_banner{
+    text-align: right;
+}

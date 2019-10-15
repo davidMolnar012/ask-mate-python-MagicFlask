@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, escape, session, url_for
 from time import gmtime, strftime
 
 import data_manager
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 @app.route('/')
@@ -11,7 +12,10 @@ def index():
     latest_5_questions = data_manager.select_sql(
         'question', order_column='submission_time', order_asc_desc='DESC', limit='5'
     )
-    return render_template('index.html', questions=latest_5_questions)
+    login_status_message = 'You are not logged in'
+    if 'user_name' in session:
+        login_status_message = 'Logged in as %s' % escape(session['user_name'])
+    return render_template('index.html', questions=latest_5_questions, login_status_message=login_status_message)
 
 
 @app.route('/list')
@@ -208,7 +212,6 @@ def edit_comment(comment_id):
     else:
         redirect_table = 'answer'
         redirect_id = comment[0]['answer_id']
-    print(comment)
     if request.method == 'POST':
         for column_name, element in request.form.items():
             data_manager.update_sql('comment', column_name, element, update_condition=f'id={comment_id}')
@@ -248,6 +251,27 @@ def user_registration():
             return redirect('/registration')
         user_name_exists = True
     return render_template('new_user.html', user_name_exists=user_name_exists)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def user_login():
+    login_fail = False
+    if request.method == 'POST' and request.form:
+        if request.form['user_name'] in [row['user_name'] for row in data_manager.select_sql(
+                table='users', column='user_name')]:
+            if data_manager.verify_password(request.form['password'], data_manager.select_sql(
+                    column='password', table='users', clause='WHERE',
+                    condition=['user_name', '=', request.form['user_name']])[0]['password']):
+                session['user_name'] = request.form['user_name']
+                return redirect('/')
+        login_fail = True
+    return render_template('login_user.html', login_fail=login_fail)
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def user_logout():
+    session.pop('user_name', None)
+    return redirect(url_for('index'))
 
 
 @app.route('/debug-url')
