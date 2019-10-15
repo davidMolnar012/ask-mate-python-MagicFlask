@@ -145,7 +145,7 @@ def search():
         if item not in [*{i['id'] for i in questions}]:
             questions += data_manager.select_sql('question', clause='WHERE', condition=['id', '=', item])
     if questions:
-        return render_template('fancy_search.html', questions=questions, search_frase=[*request.args.values()][0] )
+        return render_template('fancy_search.html', questions=questions, search_frase=[*request.args.values()][0])
     return redirect('/')
 
 
@@ -235,6 +235,19 @@ def delete_comment(id_):
         redirect_id = comment_row[0]['answer_id']
     data_manager.delete_record(table='comment', clause='WHERE', condition=['id', '=', id_])
     return redirect(f'/{redirect_table}/{redirect_id}')
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def user_registration():
+    user_name_exists = False
+    if request.method == 'POST':
+        if request.form['user_name'] not in \
+                [row['user_name'] for row in data_manager.select_sql(table='users', column='user_name')]:
+            hashed_password = data_manager.hash_password(request.form['password'])
+            data_manager.insert_record('users', {'user_name': request.form['user_name'], 'password': hashed_password})
+            return redirect('/registration')
+        user_name_exists = True
+    return render_template('new_user.html', user_name_exists=user_name_exists)
 
 
 @app.route('/debug-url')

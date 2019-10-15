@@ -1,3 +1,4 @@
+bcrypt
 click==6.7
 Flask==1.0
 itsdangerous==0.24
