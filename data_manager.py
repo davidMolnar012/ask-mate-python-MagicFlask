@@ -1,11 +1,13 @@
 import database_common
 from psycopg2 import sql
+import bcrypt
 
 
 @database_common.connection_handler
 def select_sql(cursor, table, column='*', clause='', condition=[], clause_operator='', condition2=[],
                order_column='', order_asc_desc='', limit='', offset=''):
     """"""
+
     space = " "
     if len(condition) == 3:
         condition[2] = '\'' + str(condition[2]) + '\''
@@ -54,3 +56,12 @@ def delete_record(cursor, table, clause, condition=[]):
         f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}')
     )
 
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)

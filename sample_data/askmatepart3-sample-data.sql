@@ -74,7 +74,8 @@ DROP SEQUENCE IF EXISTS public.users_seq;
 CREATE TABLE users (
     id serial NOT NULL,
     user_name text,
-    password text
+    password text,
+    submission_time timestamp without time zone
 );
 
 ALTER TABLE ONLY answer
@@ -122,7 +123,7 @@ ALTER TABLE ONLY question
 ALTER TABLE ONLY tag
     ADD CONSTRAINT fk_user_id FOREIGN KEY (users_id) REFERENCES users(id);
 
-INSERT INTO users VALUES (1,'admin','admin');
+INSERT INTO users VALUES (1,'admin','$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
 
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL,1);
