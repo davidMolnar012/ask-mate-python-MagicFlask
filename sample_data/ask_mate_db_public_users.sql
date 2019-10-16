@@ -1,0 +1,1 @@
+INSERT INTO public.users (id, user_name, password, submission_time) VALUES (1, 'admin', '$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00.000000');
