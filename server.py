@@ -192,19 +192,23 @@ def edit_answer(answer_id):
 def add_comment(table_name, id_):
     comment_head = data_manager.get_table_head('comment')
     if request.method == 'POST':
+        user_id = data_manager.select_sql(
+            'users', clause='WHERE', condition=['user_name', '=', session['user_name']]
+        )
         if table_name == 'question':
             new_record = {comment_head[1]: id_,
                           comment_head[3]: request.form[comment_head[3]],
                           comment_head[4]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
-                          comment_head[5]: '0'
-                          }
+                          comment_head[5]: '0',
+                          comment_head[6]: str(user_id[0]['id'])}
             data_manager.insert_record('comment', new_record)
         elif table_name == 'answer':
 
             new_record = {comment_head[1]: '0', comment_head[2]: id_,
                           comment_head[3]: request.form[comment_head[3]],
                           comment_head[4]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
-                          comment_head[5]: '0'
+                          comment_head[5]: '0',
+                          comment_head[6]: str(user_id[0]['id'])
                           }
             data_manager.insert_record('comment', new_record)
         return redirect(f'/{table_name}/{id_}')
