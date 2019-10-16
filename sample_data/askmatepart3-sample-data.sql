@@ -135,7 +135,7 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 
 jquery
 booklet
-app.js (bundled file with webpack, including jquery)', 'https://i.kym-cdn.com/photos/images/original/000/482/170/a44.jpg',1);
+app.js (bundled file with webpack, including jquery)', 'https://i.kym-cdn.com/photos/images/original/000/482/170/a44.jpg', 1);
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', 'None' ,1);
 INSERT INTO question VALUES (3, '2019-10-02 13:29:52.000000', 158, 32, 'Rubber Duck inventor', 'Who invented the Yellow Rubber Duck?', 'https://images-na.ssl-images-amazon.com/images/I/51-JQx6aE6L._SX425_.jpg', 1);
@@ -144,7 +144,7 @@ INSERT INTO question VALUES (5, '2019-10-02 14:06:58.000000', 113, 90 , 'Biggest
 SELECT pg_catalog.setval('question_id_seq', 5, true);
 
 INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', 'None', 1);
-INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg', 1);
+INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY4RusHBTJdCfK3nGlAaEG-Fl16hX4U-05iZDghzQ7YTkn3fWI4w', 1);
 INSERT INTO answer VALUES (3, '2019-10-02 13:38:05.000000', 18, 3, 'Sculptor Peter Ganine created a sculpture of a duck in the 1940s. He then patented it and reproduced it as a floating toy, of which over 50 million were sold.', 'https://c.stocksy.com/a/c7X200/z9/603980.jpg?1564682295', 1);
 INSERT INTO answer VALUES (4, '2019-10-02 14:08:28.000000', 1, 2, 'aerzeqz', 'None', 1);
 INSERT INTO answer VALUES (5, '2019-10-03 16:41:53.000000', -5, 0, 'first', 'https://i.pinimg.com/originals/a5/df/c2/a5dfc21fc9ad530068537135aef51ba5.png' , 1);
