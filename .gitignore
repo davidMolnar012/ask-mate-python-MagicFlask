@@ -92,3 +92,5 @@ ENV/
 
 # End of https://www.gitignore.io/api/venv,pycharm
 
+!/sample_data/ask_mate_db_backup.csv
+sample_data/ask_mate_db_backup.csv
