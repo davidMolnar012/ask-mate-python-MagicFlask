@@ -15,6 +15,7 @@ def index():
     login_status_message = 'You are not logged in'
     if 'user_name' in session:
         login_status_message = 'Logged in as %s' % escape(session['user_name'])
+        
     return render_template('index.html', questions=latest_5_questions, login_status_message=login_status_message)
 
 
@@ -84,11 +85,16 @@ def vote(id_, vote_direction, table):
 def add_question():
     table_head = data_manager.get_table_head('question')
     if request.method == 'POST':
+        user_id = data_manager.select_sql(
+            'users', clause='WHERE', condition=['user_name', '=', session['user_name']]
+        )
         new_record = {table_head[1]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
-                      table_head[2]: '0', table_head[3]: '0',
+                      table_head[2]: '0',
+                      table_head[3]: '0',
                       table_head[4]: request.form[table_head[4]],
                       table_head[5]: request.form[table_head[5]],
-                      table_head[6]: f'{request.form[table_head[6]] if request.form[table_head[6]] else None}'}
+                      table_head[6]: f'{request.form[table_head[6]] if request.form[table_head[6]] else None}',
+                      table_head[7]: str(user_id[0]['id'])}
         data_manager.insert_record('question', new_record)
         new_record_id = data_manager.select_sql(
             'question', column='id', clause='WHERE', condition=[table_head[1], '=', new_record[table_head[1]]]

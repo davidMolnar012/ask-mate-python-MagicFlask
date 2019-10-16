@@ -126,7 +126,7 @@ ALTER TABLE ONLY tag
 INSERT INTO users VALUES (1,'admin','$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
 
-INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL,1);
+INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', 'None',1);
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
@@ -137,16 +137,16 @@ jquery
 booklet
 app.js (bundled file with webpack, including jquery)', 'https://i.kym-cdn.com/photos/images/original/000/482/170/a44.jpg',1);
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
-', NULL ,1);
+', 'None' ,1);
 INSERT INTO question VALUES (3, '2019-10-02 13:29:52.000000', 158, 32, 'Rubber Duck inventor', 'Who invented the Yellow Rubber Duck?', 'https://images-na.ssl-images-amazon.com/images/I/51-JQx6aE6L._SX425_.jpg', 1);
 INSERT INTO question VALUES (4, '2019-10-02 13:59:18.000000' ,95 ,67 ,'NASA honesty' , 'Why won’t NASA be honest with us and admit that the Earth is flat and the Moon landing was faked?' ,'https://www.moonmontchronicle.com/uploads/3/1/1/0/31106889/9265848.jpg?602', 1);
 INSERT INTO question VALUES (5, '2019-10-02 14:06:58.000000', 113, 90 , 'Biggest Ass', 'How big is the biggest ass on the world, and where can I find it?' , 'https://www.madmagazine.com/sites/default/files/MAD-Magazine-Alfred-E-Neuman-Norman-Mingo.jpg', 1);
 SELECT pg_catalog.setval('question_id_seq', 5, true);
 
-INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL, 1);
+INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', 'None', 1);
 INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg', 1);
 INSERT INTO answer VALUES (3, '2019-10-02 13:38:05.000000', 18, 3, 'Sculptor Peter Ganine created a sculpture of a duck in the 1940s. He then patented it and reproduced it as a floating toy, of which over 50 million were sold.', 'https://c.stocksy.com/a/c7X200/z9/603980.jpg?1564682295', 1);
-INSERT INTO answer VALUES (4, '2019-10-02 14:08:28.000000', 1, 2, 'aerzeqz', NULL, 1);
+INSERT INTO answer VALUES (4, '2019-10-02 14:08:28.000000', 1, 2, 'aerzeqz', 'None', 1);
 INSERT INTO answer VALUES (5, '2019-10-03 16:41:53.000000', -5, 0, 'first', 'https://i.pinimg.com/originals/a5/df/c2/a5dfc21fc9ad530068537135aef51ba5.png' , 1);
 INSERT INTO answer VALUES (6, '2019-10-03 16:43:21.000000', -8, 0, 'fake!', 'http://www.dariushghatan.com/wp-content/uploads/depositphotos_57228163-stock-illustration-fake-red-stamp-text-886x590.jpg', 1);
 INSERT INTO answer VALUES (7, '2019-10-03 17:06:44.000000', 25, 4, 'Because nobody can call their bluff, because they are on the other side of Flat Earth.', 'https://i.imgur.com/t5jbb21.jpg', 1);
