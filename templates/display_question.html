@@ -27,7 +27,8 @@
                                 <a href="/question/{{ element }}">{{ element }}</a>
                             {% elif head == 'image' %}
                                 {% if element == None %}
-                                    <img src="https://png.pngtree.com/svg/20170616/question_mark_333663.png" width="50" height="50" alt="default icon">
+                                    <a href="/picture/https://tinyurl.com/yxltjf98">
+                                        <img src="https://tinyurl.com/yxltjf98" width="50" height="50" alt="default icon"></a>
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
@@ -102,8 +103,9 @@
                             {% if head == 'id' %}
                                 <a href="/answer/{{ element }}">{{ element }}</a>
                             {% elif head == 'image' %}
-                                {% if element == 'None' %}
-                                    <img src="https://png.pngtree.com/svg/20170616/question_mark_333663.png" width="50" height="50" alt="default icon">
+                                {% if element == None %}
+                                    <a href="/picture/https://tinyurl.com/yxltjf98">
+                                        <img src="https://tinyurl.com/yxltjf98" width="50" height="50" alt="default icon"></a>
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
