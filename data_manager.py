@@ -26,7 +26,7 @@ def select_query(cursor, table, column='', join_type='', join_table='', join_on=
     query = sql.SQL(
         f'SELECT {"{}" if column else "*"} FROM {{}} '
         f'{join_type + " " + join_table + " " if join_type in join_types else ""}'
-        f'{"ON " + join_on[0] + join_on[1] + join_on[2] + " " if len(join_on) == 3 else ""}'
+        f'{"ON " + join_on[0] + "=" + join_on[1] + " " if len(join_on) == 2 else ""}'
         f'{clause + " " if clause.upper() in ["WHERE"] else ""}'
         f'{condition[0] + " " + condition[1] + " " + condition[2] + " " if len(condition) == 3 else ""}'
         f'{clause_operator + " " if clause_operator.upper() in ["AND", "OR"] else ""}'
