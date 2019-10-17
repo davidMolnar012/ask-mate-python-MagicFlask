@@ -10,7 +10,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 @app.route('/')
 def index():
     latest_5_questions = data_manager.select_query(
-        'ques";"tion', order_column='submission_time', order_asc_desc='DESC', limit='5'
+        'question', order_column='submission_time', order_asc_desc='DESC', limit='5'
     )
     login_status_message = 'You are not logged in'
     if 'user_name' in session:
