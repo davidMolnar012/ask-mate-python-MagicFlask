@@ -15,8 +15,10 @@ def index():
     login_status_message = 'You are not logged in'
     if 'user_name' in session:
         login_status_message = 'Logged in as %s' % escape(session['user_name'])
-        
-    return render_template('index.html', questions=latest_5_questions, login_status_message=login_status_message)
+    return render_template(
+        'index.html', questions=latest_5_questions,
+        login_status_message=login_status_message, user_names=data_manager.get_user_names()
+    )
 
 
 @app.route('/list')
@@ -29,7 +31,7 @@ def list_all():
     questions = data_manager.select_query(
         'question', order_column='submission_time', order_asc_desc='DESC'
     )
-    return render_template('list_all.html', questions=questions)
+    return render_template('list_all.html', questions=questions, user_names=data_manager.get_user_names())
 
 
 @app.route('/picture/<path:picture>')
@@ -39,9 +41,15 @@ def show_picture(picture):
 
 @app.route('/question/<int:question_id>')
 def show_question(question_id):
-    question = data_manager.select_query('question', clause='WHERE', condition=['id', '=', question_id])
-    answers = data_manager.select_query('answer', clause='WHERE', condition=['question_id', '=', question_id])
-    comments = data_manager.select_query('comment', clause='WHERE', condition=['question_id', '=', question_id])
+    question = data_manager.select_query(
+        'question', clause='WHERE', condition=['id', '=', question_id], order_column='id', order_asc_desc='ASC'
+    )
+    answers = data_manager.select_query(
+        'answer', clause='WHERE', condition=['question_id', '=', question_id], order_column='id', order_asc_desc='ASC'
+    )
+    comments = data_manager.select_query(
+        'comment', clause='WHERE', condition=['question_id', '=', question_id], order_column='id', order_asc_desc='ASC'
+                                         )
     comment_head = data_manager.get_table_head('comment')
     if not answers:
         answers = [{'Answers': 'This question doesn\'t have any answer yet.'}]
@@ -55,7 +63,7 @@ def show_question(question_id):
     )
     return render_template(
         'display_question.html', question=question, answers=answers, comments=comments, question_id=question_id,
-        comment_head=comment_head
+        comment_head=comment_head, user_names=data_manager.get_user_names()
     )
 
 
@@ -158,9 +166,11 @@ def search():
     answer_id = [*{i['question_id'] for i in answer_id}]
     for item in answer_id:
         if item not in [*{i['id'] for i in questions}]:
-            questions += data_manager.select_query('question', clause='WHERE', condition=['id', '=', item])
+            questions += data_manager.select_query(
+                'question', clause='WHERE', condition=['id', '=', item])
     if questions:
-        return render_template('fancy_search.html', questions=questions, search_frase=[*request.args.values()][0])
+        return render_template('fancy_search.html', questions=questions, search_frase=[*request.args.values()][0],
+                               user_names=data_manager.get_user_names())
     return redirect('/')
 
 
@@ -173,7 +183,7 @@ def show_answer(answer_id):
         comments = [{'Comments': 'This answer doesn\'t have any comments yet.'}]
     return render_template(
         'display_answer.html', answer=answer, comments=comments, comment_head=comment_head,
-        answer_id=answer_id, question_id=answer[0]['question_id']
+        answer_id=answer_id, question_id=answer[0]['question_id'], user_names=data_manager.get_user_names()
     )
 
 

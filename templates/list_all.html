@@ -15,7 +15,7 @@
             <tr>
                 {% for head_element in questions[0].keys() %}
                     <td>
-                        {{ head_element.title().replace('_', ' ') }}
+                    {{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}
                         <form action="/list">
                             <select name="{{ head_element }}">
                                  <option value="DESC" selected >Descend</option>
@@ -42,6 +42,8 @@
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
+                            {% elif head == 'users_id' %}
+                                <a href="/user-activity/{{ user_names[element] }}">{{ user_names[element] }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}

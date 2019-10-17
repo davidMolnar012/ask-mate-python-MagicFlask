@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 {% for head_element in answer[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>{{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -31,6 +31,8 @@
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
+                            {% elif head == 'users_id' %}
+                                <a href="/user-activity/{{ user_names[element] }}">{{ user_names[element] }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}
@@ -49,7 +51,7 @@
         <thead>
             <tr>
                 {% for head_element in comments[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>{{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -58,7 +60,11 @@
                 <tr>
                     {% for head, element in record.items() %}
                         <td>
+                            {% if head == 'users_id' %}
+                                {{ user_names[element] }}
+                            {% else %}
                                 {{ element }}
+                            {% endif %}
                         </td>
                     {% endfor %}
                         <td>
