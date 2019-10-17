@@ -262,7 +262,9 @@ def user_registration():
         if request.form['user_name'] not in \
                 [row['user_name'] for row in data_manager.select_query(table='users', column='user_name')]:
             hashed_password = data_manager.hash_password(request.form['password'])
-            data_manager.insert_record('users', {'user_name': request.form['user_name'], 'password': hashed_password})
+            data_manager.insert_record('users', {
+                'user_name': request.form['user_name'], 'password': hashed_password,
+                'submission_time': str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))})
             return redirect('/registration')
         user_name_exists = True
     return render_template('new_user.html', user_name_exists=user_name_exists)
@@ -287,6 +289,24 @@ def user_login():
 def user_logout():
     session.pop('user_name', None)
     return redirect(url_for('index'))
+
+
+@app.route('/all-user', methods=['GET', 'POST'])
+def all_user():
+    if request.args:
+        users = data_manager.select_query(
+            'users', order_column=[*request.args.keys()][0], order_asc_desc=[*request.args.values()][0]
+        )
+        for index, user in enumerate(users):
+            users[index].pop('password')
+        return render_template('all_user.html', questions=users)
+
+    users = data_manager.select_query(
+        'users', order_column='submission_time', order_asc_desc='DESC'
+    )
+    for index, user in enumerate(users):
+        users[index].pop('password')
+    return render_template('all_user.html', questions=users)
 
 
 @app.route('/debug-url')

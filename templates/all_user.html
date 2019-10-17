@@ -6,25 +6,25 @@
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-    <h3 class="login_banner">{{ login_status_message }}<br>
-        <form action="{{ 'login' if 'not logged' in login_status_message else 'logout'}}">
-            <button>
-                {{ 'Login' if 'not logged' in login_status_message else 'Logout'}}
-            </button>
-        </form>
-        <a href="/register">{{"Create new account" if 'not logged' in login_status_message else ''}}<a/>
-    </h3>
-    <h1>AskMate mk2</h1>
+    <h1>All users</h1>
     <br>
-    <form action="/search">
-        <input type="text" name="search">
-        <button type="submit">Search</button>
-    </form><br>
+    <p>
+    </p>
     <table>
         <thead>
             <tr>
                 {% for head_element in questions[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>
+                        {{ head_element.title().replace('_', ' ') }}
+                        <form action="/all-user">
+                            <select name="{{ head_element }}">
+                                 <option value="DESC" selected >Descend</option>
+                                 <option value="ASC" >Ascend</option>
+                            </select>
+                            <br>
+                            <button type="submit">Sort</button>
+                        </form>
+                    </td>
                 {% endfor %}
             </tr>
         </thead>
@@ -34,7 +34,7 @@
                     {% for head, element in record.items() %}
                         <td>
                             {% if head == 'id' %}
-                                <a href="/question/{{ element }}">{{ element }}</a>
+                                <a href="/users/{{ element }}">{{ element }}</a>
                             {% elif head == 'image' %}
                                 {% if element == 'None' %}
                                     <a href="/picture/https://tinyurl.com/yxltjf98">
@@ -51,11 +51,6 @@
             {% endfor %}
         </tbody>
     </table>
-    <h2>
-        <p><a href="{{ url_for('add_question') }}">Add new question</a></p>
-        <p><a href="{{ url_for('list_all') }}">List all questions</a></p>
-        <p><a href="{{ url_for('all_user') }}">List all user</a></p>
-    </h2>
+    <h3><a href="{{ url_for('index') }}">Back to main page</a></h3>
 </body>
 </html>
-
