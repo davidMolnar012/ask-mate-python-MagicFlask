@@ -11,9 +11,7 @@
         <thead>
             <tr>
                 {% for head_element in questions[0].keys() %}
-                    <td>
-                        {{ head_element.title().replace('_', ' ') }}
-                    </td>
+                    <td>{{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -31,6 +29,8 @@
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
+                            {% elif head == 'users_id' %}
+                                <a href="/user-activity/{{ element }}">{{ user_names[element] }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}

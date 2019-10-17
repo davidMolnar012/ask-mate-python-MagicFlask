@@ -14,7 +14,7 @@
         </form>
         <a href="/register">{{"Create new account" if 'not logged' in login_status_message else ''}}<a/>
     </h3>
-    <h1>AskMate mk2</h1>
+    <h1>AskMate mk3</h1>
     <br>
     <form action="/search">
         <input type="text" name="search">
@@ -24,7 +24,7 @@
         <thead>
             <tr>
                 {% for head_element in questions[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>{{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -42,6 +42,8 @@
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
+                            {% elif head == 'users_id' %}
+                                <a href="/user-activity/{{ user_names[element] }}">{{ user_names[element] }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}
