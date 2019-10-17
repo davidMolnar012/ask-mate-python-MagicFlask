@@ -85,7 +85,7 @@ def vote(id_, vote_direction, table):
 def add_question():
     table_head = data_manager.get_table_head('question')
     if request.method == 'POST':
-        user_id = data_manager.select_sql(
+        user_id = data_manager.select_query(
             'users', clause='WHERE', condition=['user_name', '=', session['user_name']]
         )
         new_record = {table_head[1]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
@@ -126,7 +126,7 @@ def delete_question(question_id):
 def add_answer(question_id):
     table_head = data_manager.get_table_head('answer')
     if request.method == 'POST':
-        user_id = data_manager.select_sql(
+        user_id = data_manager.select_query(
             'users', clause='WHERE', condition=['user_name', '=', session['user_name']]
         )
         new_record = {table_head[1]: str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
@@ -192,7 +192,7 @@ def edit_answer(answer_id):
 def add_comment(table_name, id_):
     comment_head = data_manager.get_table_head('comment')
     if request.method == 'POST':
-        user_id = data_manager.select_sql(
+        user_id = data_manager.select_query(
             'users', clause='WHERE', condition=['user_name', '=', session['user_name']]
         )
         if table_name == 'question':
