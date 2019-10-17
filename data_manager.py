@@ -4,29 +4,51 @@ import bcrypt
 
 
 @database_common.connection_handler
-def select_sql(cursor, table, column='*', clause='', condition=[], clause_operator='', condition2=[],
-               order_column='', order_asc_desc='', limit='', offset=''):
+def select_query(cursor, table, column='', join_type='', join_table='', join_on=[], clause='', condition=[],
+                 clause_operator='', condition2=[], group_element='', order_column='', order_asc_desc='', limit='',
+                 offset=''):
     """"""
+    join_types = ["FULL JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "JOIN"]
 
-    space = " "
     if len(condition) == 3:
-        condition[2] = '\'' + str(condition[2]) + '\''
+        if condition[1].upper() == 'LIKE':
+            condition[2] = sql.Literal('%' + condition[2] + '%').as_string(cursor)
+        else:
+            condition[2] = sql.Literal(condition[2]).as_string(cursor)
     if len(condition2) == 3:
-        condition2[2] = '\'' + str(condition2[2]) + '\''
-    cursor.execute(sql.SQL(
-        f'SELECT {column} FROM {table} '
-        f'{clause} {condition[0] + space + condition[1] + space + condition[2] if len(condition) == 3 else ""}'
-        f' {clause_operator} '
-        f'{condition2[0] + space + condition2[1] + space + condition2[2] if len(condition2) == 3 else ""}'
-        f'{" ORDER BY " if order_column else ""}{order_column}{" " if order_asc_desc else ""}{order_asc_desc}'
-        f'{" LIMIT " if limit else ""}{limit}'
-        f'{" OFFSET " if offset else ""}{offset}'
-    ))
+        if condition2[1].upper() == 'LIKE':
+            condition2[2] = sql.Literal('%' + condition2[2] + '%').as_string(cursor)
+        else:
+            condition2[2] = sql.Literal(condition2[2]).as_string(cursor)
+    if column == '*':
+        column = sql.Identifier(column)
+
+    query = sql.SQL(
+        f'SELECT {"{}" if column else "*"} FROM {{}} '
+        f'{join_type + " " + join_table + " " if join_type in join_types else ""}'
+        f'{"ON " + join_on[0] + join_on[1] + join_on[2] + " " if len(join_on) == 3 else ""}'
+        f'{clause + " " if clause.upper() in ["WHERE"] else ""}'
+        f'{condition[0] + " " + condition[1] + " " + condition[2] + " " if len(condition) == 3 else ""}'
+        f'{clause_operator + " " if clause_operator.upper() in ["AND", "OR"] else ""}'
+        f'{condition2[0] + " " + condition2[1] + " " + condition2[2] + " " if len(condition2) == 3 else ""}'
+        f'{"GROUP BY " + group_element + " " if group_element else ""}'
+        f'{"ORDER BY " + order_column + " " if order_column else ""}'
+        f'{order_asc_desc + " " if order_asc_desc == "ASC" or "DESC" else ""}'
+        f'{"LIMIT " + limit + " " if limit.isdigit() else ""}'
+        f'{"OFFSET " + offset if offset.isdigit() else ""}'
+        ';'
+    )
+    if column:
+        query = query.format(sql.Identifier(column), sql.Identifier(table))
+    else:
+        query = query.format(sql.Identifier(table))
+    cursor.execute(query)
+    print(cursor.query)
     return cursor.fetchall()
 
 
 @database_common.connection_handler
-def update_sql(cursor, table, column, update_value, update_condition=''):
+def update_query(cursor, table, column, update_value, update_condition=''):
     """"""
     cursor.execute(sql.SQL(f'UPDATE {table} SET {column} = \'{update_value}\' '
                            f'{"WHERE " if update_condition else ""}{update_condition}'))

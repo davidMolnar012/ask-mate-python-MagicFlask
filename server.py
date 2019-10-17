@@ -9,8 +9,8 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/')
 def index():
-    latest_5_questions = data_manager.select_sql(
-        'question', order_column='submission_time', order_asc_desc='DESC', limit='5'
+    latest_5_questions = data_manager.select_query(
+        'ques";"tion', order_column='submission_time', order_asc_desc='DESC', limit='5'
     )
     login_status_message = 'You are not logged in'
     if 'user_name' in session:
@@ -22,11 +22,11 @@ def index():
 @app.route('/list')
 def list_all():
     if request.args:
-        questions = data_manager.select_sql(
+        questions = data_manager.select_query(
             'question', order_column=[*request.args.keys()][0], order_asc_desc=[*request.args.values()][0]
         )
         return render_template('list_all.html', questions=questions)
-    questions = data_manager.select_sql(
+    questions = data_manager.select_query(
         'question', order_column='submission_time', order_asc_desc='DESC'
     )
     return render_template('list_all.html', questions=questions)
@@ -39,9 +39,9 @@ def show_picture(picture):
 
 @app.route('/question/<int:question_id>')
 def show_question(question_id):
-    question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
-    answers = data_manager.select_sql('answer', clause='WHERE', condition=['question_id', '=', question_id])
-    comments = data_manager.select_sql('comment', clause='WHERE', condition=['question_id', '=', question_id])
+    question = data_manager.select_query('question', clause='WHERE', condition=['id', '=', question_id])
+    answers = data_manager.select_query('answer', clause='WHERE', condition=['question_id', '=', question_id])
+    comments = data_manager.select_query('comment', clause='WHERE', condition=['question_id', '=', question_id])
     comment_head = data_manager.get_table_head('comment')
     if not answers:
         answers = [{'Answers': 'This question doesn\'t have any answer yet.'}]
@@ -49,7 +49,7 @@ def show_question(question_id):
         comment_head = ['Comments']
         comments = [{'Comments': 'This answer doesn\'t have any comment yet.'}]
     question[0]['view_number'] += 1
-    data_manager.update_sql(
+    data_manager.update_query(
         table='question', column='view_number',
         update_value=question[0]['view_number'], update_condition=f'id={question_id}'
     )
@@ -61,20 +61,20 @@ def show_question(question_id):
 
 @app.route('/<table>/<int:id_>/vote-<vote_direction>')
 def vote(id_, vote_direction, table):
-    table_data = data_manager.select_sql(table, clause='WHERE', condition=['id', '=', id_])
+    table_data = data_manager.select_query(table, clause='WHERE', condition=['id', '=', id_])
     if vote_direction == 'up':
         table_data[0]['vote_number'] += 1
     elif vote_direction == 'down':
         table_data[0]['vote_number'] -= 1
-    data_manager.update_sql(
+    data_manager.update_query(
         table=table, column='vote_number',
         update_value=table_data[0]['vote_number'], update_condition=f'id={id_}'
     )
     if table == 'answer':
         id_ = table_data[0]['question_id']
-    question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', id_])
+    question = data_manager.select_query('question', clause='WHERE', condition=['id', '=', id_])
     question[0]['view_number'] -= 1
-    data_manager.update_sql(
+    data_manager.update_query(
         table='question', column='view_number',
         update_value=question[0]['view_number'], update_condition=f'id={id_}'
     )
@@ -96,7 +96,7 @@ def add_question():
                       table_head[6]: f'{request.form[table_head[6]] if request.form[table_head[6]] else None}',
                       table_head[7]: str(user_id[0]['id'])}
         data_manager.insert_record('question', new_record)
-        new_record_id = data_manager.select_sql(
+        new_record_id = data_manager.select_query(
             'question', column='id', clause='WHERE', condition=[table_head[1], '=', new_record[table_head[1]]]
         )
         return redirect(f'/question/{new_record_id[0]["id"]}')
@@ -106,10 +106,10 @@ def add_question():
 @app.route('/question/<int:question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
     table_head = data_manager.get_table_head('question')
-    question = data_manager.select_sql('question', clause='WHERE', condition=['id', '=', question_id])
+    question = data_manager.select_query('question', clause='WHERE', condition=['id', '=', question_id])
     if request.method == 'POST':
         for column_name, element in request.form.items():
-            data_manager.update_sql('question', column_name, element, update_condition=f'id={question_id}')
+            data_manager.update_query('question', column_name, element, update_condition=f'id={question_id}')
         return redirect(f'/question/{question_id}')
     return render_template('update_question.html', table_head=table_head, question=question, question_id=question_id)
 
@@ -149,16 +149,16 @@ def delete_answer(answer_id):
 
 @app.route('/search')
 def search():
-    questions = data_manager.select_sql(
-        'question', clause='WHERE', condition=['title', 'LIKE', '%' + [*request.args.values()][0] + '%'],
-        clause_operator='OR', condition2=['message', 'LIKE', '%' + [*request.args.values()][0] + '%']
+    questions = data_manager.select_query(
+        'question', clause='WHERE', condition=['title', 'LIKE', [*request.args.values()][0]],
+        clause_operator='OR', condition2=['message', 'LIKE', [*request.args.values()][0]]
     )
-    answer_id = data_manager.select_sql(
-        'answer', clause='WHERE', condition=['message', 'LIKE', '%' + [*request.args.values()][0] + '%'])
+    answer_id = data_manager.select_query(
+        'answer', clause='WHERE', condition=['message', 'LIKE', [*request.args.values()][0]])
     answer_id = [*{i['question_id'] for i in answer_id}]
     for item in answer_id:
         if item not in [*{i['id'] for i in questions}]:
-            questions += data_manager.select_sql('question', clause='WHERE', condition=['id', '=', item])
+            questions += data_manager.select_query('question', clause='WHERE', condition=['id', '=', item])
     if questions:
         return render_template('fancy_search.html', questions=questions, search_frase=[*request.args.values()][0])
     return redirect('/')
@@ -166,8 +166,8 @@ def search():
 
 @app.route('/answer/<int:answer_id>')
 def show_answer(answer_id):
-    answer = data_manager.select_sql('answer', clause='WHERE', condition=['id', '=', answer_id])
-    comments = data_manager.select_sql('comment', clause='WHERE', condition=['answer_id', '=', answer_id])
+    answer = data_manager.select_query('answer', clause='WHERE', condition=['id', '=', answer_id])
+    comments = data_manager.select_query('comment', clause='WHERE', condition=['answer_id', '=', answer_id])
     comment_head = data_manager.get_table_head('comment')
     if not comments:
         comments = [{'Comments': 'This answer doesn\'t have any comments yet.'}]
@@ -180,10 +180,10 @@ def show_answer(answer_id):
 @app.route('/answer/<int:answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     table_head = data_manager.get_table_head('answer')
-    answer = data_manager.select_sql('answer', clause='WHERE', condition=['id', '=', answer_id])
+    answer = data_manager.select_query('answer', clause='WHERE', condition=['id', '=', answer_id])
     if request.method == 'POST':
         for column_name, element in request.form.items():
-            data_manager.update_sql('answer', column_name, element, update_condition=f'id={answer_id}')
+            data_manager.update_query('answer', column_name, element, update_condition=f'id={answer_id}')
         return redirect(f'/answer/{answer_id}')
     return render_template('update_answer.html', table_head=table_head, answer=answer, answer_id=answer_id)
 
@@ -218,7 +218,7 @@ def add_comment(table_name, id_):
 @app.route('/comments/<int:comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
     table_head = data_manager.get_table_head('comment')
-    comment = data_manager.select_sql(
+    comment = data_manager.select_query(
         table='comment', clause='WHERE', condition=['id', '=', comment_id]
     )
     if comment[0]['answer_id'] is None:
@@ -229,8 +229,8 @@ def edit_comment(comment_id):
         redirect_id = comment[0]['answer_id']
     if request.method == 'POST':
         for column_name, element in request.form.items():
-            data_manager.update_sql('comment', column_name, element, update_condition=f'id={comment_id}')
-        data_manager.update_sql(
+            data_manager.update_query('comment', column_name, element, update_condition=f'id={comment_id}')
+        data_manager.update_query(
             'comment', 'edited_count', comment[0]['edited_count'] + 1, update_condition=f'id={comment_id}'
         )
         return redirect(f'/{redirect_table}/{redirect_id}')
@@ -242,7 +242,7 @@ def edit_comment(comment_id):
 
 @app.route('/comments/<id_>/delete')
 def delete_comment(id_):
-    comment_row = data_manager.select_sql(
+    comment_row = data_manager.select_query(
         table='comment', clause='WHERE', condition=['id', '=', id_]
     )
     if comment_row[0]['answer_id'] is None:
@@ -260,7 +260,7 @@ def user_registration():
     user_name_exists = False
     if request.method == 'POST':
         if request.form['user_name'] not in \
-                [row['user_name'] for row in data_manager.select_sql(table='users', column='user_name')]:
+                [row['user_name'] for row in data_manager.select_query(table='users', column='user_name')]:
             hashed_password = data_manager.hash_password(request.form['password'])
             data_manager.insert_record('users', {'user_name': request.form['user_name'], 'password': hashed_password})
             return redirect('/registration')
@@ -272,9 +272,9 @@ def user_registration():
 def user_login():
     login_fail = False
     if request.method == 'POST' and request.form:
-        if request.form['user_name'] in [row['user_name'] for row in data_manager.select_sql(
+        if request.form['user_name'] in [row['user_name'] for row in data_manager.select_query(
                 table='users', column='user_name')]:
-            if data_manager.verify_password(request.form['password'], data_manager.select_sql(
+            if data_manager.verify_password(request.form['password'], data_manager.select_query(
                     column='password', table='users', clause='WHERE',
                     condition=['user_name', '=', request.form['user_name']])[0]['password']):
                 session['user_name'] = request.form['user_name']
