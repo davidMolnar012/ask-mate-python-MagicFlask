@@ -13,10 +13,13 @@ def index():
         'question', order_column='submission_time', order_asc_desc='DESC', limit='5'
     )
     login_status_message = 'You are not logged in'
+    user_name = 'guest'
     if 'user_name' in session:
         login_status_message = 'Logged in as %s' % escape(session['user_name'])
+        user_name = session['user_name']
         
-    return render_template('index.html', questions=latest_5_questions, login_status_message=login_status_message)
+    return render_template('index.html', questions=latest_5_questions, login_status_message=login_status_message,
+                           user_name=user_name)
 
 
 @app.route('/list')
@@ -58,6 +61,27 @@ def show_question(question_id):
         comment_head=comment_head
     )
 
+
+@app.route('/user-activity/<user_name>')
+def user_activity(user_name):
+    user_id = data_manager.select_query('users', column="id", clause='WHERE', condition=['user_name', '=', user_name])[0]["id"]
+    print(user_id)
+    questions = data_manager.select_query('question', clause='WHERE', condition=['users_id', '=', user_id])
+    print(questions)
+    answers = data_manager.select_query('answer', clause='WHERE', condition=['users_id', '=', user_id])
+    print(answers)
+    comments = data_manager.select_query('comment', clause='WHERE', condition=['users_id', '=', user_id])
+    print(comments)
+    comment_head = data_manager.get_table_head('comment')
+    if not answers:
+        answers = [{'Answers': 'This question doesn\'t have any answer yet.'}]
+    if not comments:
+        comment_head = ['Comments']
+        comments = [{'Comments': 'This answer doesn\'t have any comment yet.'}]
+
+    return render_template('user-activity.html', user_name=user_name, questions=questions, answers=answers,
+                           comments=comments, comment_head=comment_head)
+    
 
 @app.route('/<table>/<int:id_>/vote-<vote_direction>')
 def vote(id_, vote_direction, table):

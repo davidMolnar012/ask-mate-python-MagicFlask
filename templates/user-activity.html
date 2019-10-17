@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AskMate</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <h1>All activity of {{ user_name }}</h1>
+    <br>
+    <h2>Questions</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for head_element in questions[0].keys() %}
+                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in questions %}
+                <tr>
+                    {% for head, element in record.items() %}
+                        <td>
+                            {% if head == 'id' %}
+                                <a href="/question/{{ element }}">{{ element }}</a>
+                            {% elif head == 'image' %}
+                                {% if element == 'None' %}
+                                    <a href="/picture/https://tinyurl.com/yxltjf98">
+                                        <img src="https://tinyurl.com/yxltjf98" width="50" height="50" alt="default icon"></a>
+                                {% else %}
+                                    <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
+                                {% endif %}
+                            {% else %}
+                                {{ element }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <h2>Answers</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for head_element in answers[0].keys() %}
+                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in answers %}
+                <tr>
+                    {% for head, element in record.items() %}
+                        <td>
+                            {% if head == 'id' %}
+                                <a href="/answer/{{ element }}">{{ element }}</a>
+                            {% elif head == 'image' %}
+                                {% if element == 'None' %}
+                                    <a href="/picture/https://tinyurl.com/yxltjf98">
+                                        <img src="https://tinyurl.com/yxltjf98" width="50" height="50" alt="default icon"></a>
+                                {% else %}
+                                    <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
+                                {% endif %}
+                            {% else %}
+                                {{ element }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Comments</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for element in comment_head %}
+                    <td>{{ element.title().replace('_', ' ') }}</td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in comments %}
+                <tr>
+                    {% for table_name, element in record.items() %}
+                            <td>{{ element }}</td>
+
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <p>
+        <h3><a href="{{ url_for('index') }}">Back to main page</a></h3>
+    </p>
+</body>
+</html>
+
