@@ -124,6 +124,9 @@ ALTER TABLE ONLY tag
     ADD CONSTRAINT fk_user_id FOREIGN KEY (users_id) REFERENCES users(id);
 
 INSERT INTO users VALUES (1,'admin','$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00');
+INSERT INTO users VALUES (2,'DrGenya','$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00');
+INSERT INTO users VALUES (3,'EdeBedeBacsi','$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00');
+INSERT INTO users VALUES (4,'TheFist','$2b$12$qQmXvohdve3MDXsqdpKPE.UkXrYeuT/ac1bEDtbNP46vdKTDxUTYu', '2017-04-28 08:29:00');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
 
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', 'None',1);
@@ -137,32 +140,32 @@ jquery
 booklet
 app.js (bundled file with webpack, including jquery)', 'https://i.kym-cdn.com/photos/images/original/000/482/170/a44.jpg', 1);
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
-', 'None' ,1);
-INSERT INTO question VALUES (3, '2019-10-02 13:29:52.000000', 158, 32, 'Rubber Duck inventor', 'Who invented the Yellow Rubber Duck?', 'https://images-na.ssl-images-amazon.com/images/I/51-JQx6aE6L._SX425_.jpg', 1);
-INSERT INTO question VALUES (4, '2019-10-02 13:59:18.000000' ,95 ,67 ,'NASA honesty' , 'Why won’t NASA be honest with us and admit that the Earth is flat and the Moon landing was faked?' ,'https://www.moonmontchronicle.com/uploads/3/1/1/0/31106889/9265848.jpg?602', 1);
+', 'None' ,2);
+INSERT INTO question VALUES (3, '2019-10-02 13:29:52.000000', 158, 32, 'Rubber Duck inventor', 'Who invented the Yellow Rubber Duck?', 'https://images-na.ssl-images-amazon.com/images/I/51-JQx6aE6L._SX425_.jpg', 3);
+INSERT INTO question VALUES (4, '2019-10-02 13:59:18.000000' ,95 ,67 ,'NASA honesty' , 'Why won’t NASA be honest with us and admit that the Earth is flat and the Moon landing was faked?' ,'https://www.moonmontchronicle.com/uploads/3/1/1/0/31106889/9265848.jpg?602', 4);
 INSERT INTO question VALUES (5, '2019-10-02 14:06:58.000000', 113, 90 , 'Biggest Ass', 'How big is the biggest ass on the world, and where can I find it?' , 'https://www.madmagazine.com/sites/default/files/MAD-Magazine-Alfred-E-Neuman-Norman-Mingo.jpg', 1);
 SELECT pg_catalog.setval('question_id_seq', 5, true);
 
-INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', 'None', 1);
-INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY4RusHBTJdCfK3nGlAaEG-Fl16hX4U-05iZDghzQ7YTkn3fWI4w', 1);
-INSERT INTO answer VALUES (3, '2019-10-02 13:38:05.000000', 18, 3, 'Sculptor Peter Ganine created a sculpture of a duck in the 1940s. He then patented it and reproduced it as a floating toy, of which over 50 million were sold.', 'https://c.stocksy.com/a/c7X200/z9/603980.jpg?1564682295', 1);
-INSERT INTO answer VALUES (4, '2019-10-02 14:08:28.000000', 1, 2, 'aerzeqz', 'None', 1);
-INSERT INTO answer VALUES (5, '2019-10-03 16:41:53.000000', -5, 0, 'first', 'https://i.pinimg.com/originals/a5/df/c2/a5dfc21fc9ad530068537135aef51ba5.png' , 1);
+INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', 'None', 2);
+INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY4RusHBTJdCfK3nGlAaEG-Fl16hX4U-05iZDghzQ7YTkn3fWI4w', 2);
+INSERT INTO answer VALUES (3, '2019-10-02 13:38:05.000000', 18, 3, 'Sculptor Peter Ganine created a sculpture of a duck in the 1940s. He then patented it and reproduced it as a floating toy, of which over 50 million were sold.', 'https://c.stocksy.com/a/c7X200/z9/603980.jpg?1564682295', 4);
+INSERT INTO answer VALUES (4, '2019-10-02 14:08:28.000000', 1, 2, 'aerzeqz', 'None', 4);
+INSERT INTO answer VALUES (5, '2019-10-03 16:41:53.000000', -5, 0, 'first', 'https://i.pinimg.com/originals/a5/df/c2/a5dfc21fc9ad530068537135aef51ba5.png' , 3);
 INSERT INTO answer VALUES (6, '2019-10-03 16:43:21.000000', -8, 0, 'fake!', 'http://www.dariushghatan.com/wp-content/uploads/depositphotos_57228163-stock-illustration-fake-red-stamp-text-886x590.jpg', 1);
-INSERT INTO answer VALUES (7, '2019-10-03 17:06:44.000000', 25, 4, 'Because nobody can call their bluff, because they are on the other side of Flat Earth.', 'https://i.imgur.com/t5jbb21.jpg', 1);
-INSERT INTO answer VALUES (8, '2019-10-03 17:07:56.000000', 12, 4, 'No. We are on the other side.', 'https://i.pinimg.com/originals/f8/b2/c7/f8b2c72e42a698a61ebf4337fbdee85a.jpg', 1);
-INSERT INTO answer VALUES (9, '2019-10-03 17:11:32.000000', -69, 5, 'Romulus is the worlds tallest living donkey, as certified by the Guinness World Records. 12 years old and has been measured at 17 hands 68 inches, 173 cm from hooves to withers, two inches taller than the former tallest donkey, Oklahoma Sam. Romulus weighs about,1 1,300 pounds 590 kg. He is owned by Phil and Cara Barker Yellott of Adrian, Michigan. ', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Romulus_Nov6_2013_01.jpg/800px-Romulus_Nov6_2013_01.jpg', 1);
+INSERT INTO answer VALUES (7, '2019-10-03 17:06:44.000000', 25, 4, 'Because nobody can call their bluff, because they are on the other side of Flat Earth.', 'https://i.imgur.com/t5jbb21.jpg', 3);
+INSERT INTO answer VALUES (8, '2019-10-03 17:07:56.000000', 12, 4, 'No. We are on the other side.', 'https://i.pinimg.com/originals/f8/b2/c7/f8b2c72e42a698a61ebf4337fbdee85a.jpg', 4);
+INSERT INTO answer VALUES (9, '2019-10-03 17:11:32.000000', -69, 5, 'Romulus is the worlds tallest living donkey, as certified by the Guinness World Records. 12 years old and has been measured at 17 hands 68 inches, 173 cm from hooves to withers, two inches taller than the former tallest donkey, Oklahoma Sam. Romulus weighs about,1 1,300 pounds 590 kg. He is owned by Phil and Cara Barker Yellott of Adrian, Michigan. ', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Romulus_Nov6_2013_01.jpg/800px-Romulus_Nov6_2013_01.jpg', 3);
 SELECT pg_catalog.setval('answer_id_seq', 9, true);
 
-INSERT INTO comment VALUES (1, 0, NULL, 'Please clarify the question as it is too vague!', '2017-05-01 05:49:00', 0, 1);
-INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00', 0, 1);
+INSERT INTO comment VALUES (1, 0, NULL, 'Please clarify the question as it is too vague!', '2017-05-01 05:49:00', 0, 3);
+INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00', 0, 3);
 INSERT INTO comment VALUES (4, 0, 9, 'That is not helpful.', '2019-10-03 19:56:39.000000', 0, 1);
-INSERT INTO comment VALUES (5, 0, 9, 'Such a beautiful ass.', '2019-10-03 19:57:20.000000', 0, 1);
-INSERT INTO comment VALUES (6, 0, 8, 'No. Australia is on the other side.', '2019-10-03 19:58:38.000000', 0, 1);
-INSERT INTO comment VALUES (7, 0, 7, 'Chuck Norris can punch through the crust of Earth.', '2019-10-03 20:00:08.000000', 0, 1);
-INSERT INTO comment VALUES (8, 4, NULL, 'first', '2019-10-03 20:00:49.000000', 0, 1);
-INSERT INTO comment VALUES (9, 3, NULL, 'I want to know that too.', '2019-10-03 20:01:29.000000', 0, 1);
-INSERT INTO comment VALUES (10, 0, 3, 'Thanks.', '2019-10-03 20:01:45.000000', 0, 1);
+INSERT INTO comment VALUES (5, 0, 9, 'Such a beautiful ass.', '2019-10-03 19:57:20.000000', 0, 4);
+INSERT INTO comment VALUES (6, 0, 8, 'No. Australia is on the other side.', '2019-10-03 19:58:38.000000', 0, 2);
+INSERT INTO comment VALUES (7, 0, 7, 'Chuck Norris can punch through the crust of Earth.', '2019-10-03 20:00:08.000000', 0, 2);
+INSERT INTO comment VALUES (8, 4, NULL, 'first', '2019-10-03 20:00:49.000000', 0, 2);
+INSERT INTO comment VALUES (9, 3, NULL, 'I want to know that too.', '2019-10-03 20:01:29.000000', 0, 3);
+INSERT INTO comment VALUES (10, 0, 3, 'Thanks.', '2019-10-03 20:01:45.000000', 0, 4);
 INSERT INTO comment VALUES (11, 3, NULL, 'This duck is cute enough.', '2019-10-03 21:01:57.000000', 0, 1);
 SELECT pg_catalog.setval('comment_id_seq', 11, true);
 
