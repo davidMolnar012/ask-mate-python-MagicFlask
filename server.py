@@ -16,7 +16,7 @@ def index():
     user_name = 'guest'
     if 'user_name' in session:
         login_status_message = 'Logged in as %s' % escape(session['user_name'])
-    user_name = session['user_name']
+        user_name = session['user_name']
 
     return render_template(
         'index.html', questions=latest_5_questions,
@@ -75,14 +75,11 @@ def show_question(question_id):
 
 @app.route('/user-activity/<user_name>')
 def user_activity(user_name):
-    user_id = data_manager.select_query('users', column="id", clause='WHERE', condition=['user_name', '=', user_name])[0]["id"]
-    print(user_id)
+    user_id = data_manager.select_query(
+        'users', column="id", clause='WHERE', condition=['user_name', '=', user_name])[0]["id"]
     questions = data_manager.select_query('question', clause='WHERE', condition=['users_id', '=', user_id])
-    print(questions)
     answers = data_manager.select_query('answer', clause='WHERE', condition=['users_id', '=', user_id])
-    print(answers)
     comments = data_manager.select_query('comment', clause='WHERE', condition=['users_id', '=', user_id])
-    print(comments)
     comment_head = data_manager.get_table_head('comment')
     if not answers:
         answers = [{'Answers': 'This question doesn\'t have any answer yet.'}]
@@ -91,7 +88,7 @@ def user_activity(user_name):
         comments = [{'Comments': 'This answer doesn\'t have any comment yet.'}]
 
     return render_template('user-activity.html', user_name=user_name, questions=questions, answers=answers,
-                           comments=comments, comment_head=comment_head)
+                           comments=comments, comment_head=comment_head, user_names=data_manager.get_user_names())
     
 
 @app.route('/<table>/<int:id_>/vote-<vote_direction>')

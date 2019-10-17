@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 {% for head_element in questions[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>{{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -31,6 +31,8 @@
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
+                            {% elif head == 'users_id' %}
+                                <a href="/user-activity/{{ user_names[element] }}">{{ user_names[element] }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}
@@ -45,7 +47,7 @@
         <thead>
             <tr>
                 {% for head_element in answers[0].keys() %}
-                    <td>{{ head_element.title().replace('_', ' ') }}</td>
+                    <td>{{ head_element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -63,6 +65,8 @@
                                 {% else %}
                                     <a href="/picture/{{ element }}"><img src="{{ element }}" width="50" height="50" alt="icon"></a>
                                 {% endif %}
+                            {% elif head == 'users_id' %}
+                                <a href="/user-activity/{{ user_names[element] }}">{{ user_names[element] }}</a>
                             {% else %}
                                 {{ element }}
                             {% endif %}
@@ -77,7 +81,7 @@
         <thead>
             <tr>
                 {% for element in comment_head %}
-                    <td>{{ element.title().replace('_', ' ') }}</td>
+                    <td>{{ element.title().replace('_', ' ').replace('Users Id', 'User') }}</td>
                 {% endfor %}
             </tr>
         </thead>
@@ -85,8 +89,11 @@
             {% for record in comments %}
                 <tr>
                     {% for table_name, element in record.items() %}
+                        {% if table_name == 'users_id' %}
+                            <td>{{ user_names[element] }}</td>
+                        {% else %}
                             <td>{{ element }}</td>
-
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
